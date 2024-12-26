@@ -14,9 +14,13 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 
 // CORS configuration
+
 const corsOptions = {
-  credentials: true,
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed methods
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
+
 app.use(cors(corsOptions));
 
 // Middlewares
@@ -27,7 +31,7 @@ app.use(cookieParser());
 connectDB();
 
 // User Routes
-app.use('/api/users', userRoutes);
+app.use('/api', userRoutes);
 app.use('/api/users', productRoutes);
 app.use('/api/users', cartRoutes);
 app.use('/api/users', wishlistRoutes);

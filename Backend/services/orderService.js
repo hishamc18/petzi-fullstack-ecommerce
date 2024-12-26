@@ -81,53 +81,7 @@ const Cart = require('../models/cartModel')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  // Initialize Stripe with your secret key
 const CustomError = require('../utils/customError'); // Custom error handling utility
 
-// // Create a new order and handle payment (if using Stripe)
-// const createOrder = async (userId, items, shippingAddress, paymentMethod) => {
-//   let totalAmount = 0;
-//   const orderItems = [];
 
-//   // Loop through items and validate stock
-//   for (const item of items) {
-//     const product = await Product.findById(item.productId);
-//     if (!product) throw new CustomError('Product not found', 404);
-
-//     if (product.stock < item.quantity) {
-//       throw new CustomError('Not enough stock for product: ' + product.name, 400);
-//     }
-
-//     totalAmount += product.price * item.quantity; 
-//     orderItems.push({ productId: product._id, quantity: item.quantity });
-//   }
-
-//   // Create a new order (before payment processing)
-//   const newOrder = new Order({
-//     userId,
-//     items: orderItems,
-//     shippingAddress,
-//     paymentMethod,
-//     totalAmount,
-//     status: paymentMethod === 'Stripe' ? 'pending' : 'placed',  // Set status based on payment method
-//   });
-
-//   await newOrder.save();
-
-//   // If the payment method is Stripe, create a payment intent
-//   if (paymentMethod === 'Stripe') {
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount: Math.round(totalAmount) * 100,  // amount in cents
-//       currency: 'inr',  // Adjust currency as per your needs
-//       metadata: { order_id: newOrder._id.toString() },  // Attach the order ID as metadata
-//     });
-
-//     // Store the payment intent ID in the order model
-//     newOrder.stripePaymentIntentId = paymentIntent.id;
-//     await newOrder.save();
-
-//     return { order: newOrder, clientSecret: paymentIntent.client_secret };  // Return the client secret for payment processing
-//   }
-
-//   return { order: newOrder };  // Return the order if payment is not via Stripe
-// };
 
 const createOrder = async (userId, shippingAddress, paymentMethod) => {
   // Fetch user's cart
