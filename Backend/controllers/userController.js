@@ -1,5 +1,5 @@
 const asyncHandler = require('../middlewares/asyncHandler');
-const { registerUserService, loginUserService } = require('../services/userService');
+const { registerUserService, loginUserService, logoutUserService, getUserDetails } = require('../services/userService');
 const { registerValidation, loginValidation } = require('../utils/validators');
 const { generateAccessToken } = require('../utils/generateToken')
 const CustomError = require('../utils/customError');
@@ -32,7 +32,8 @@ exports.loginUser = asyncHandler(async (req, res) => {
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    maxAge: 15 * 60 * 1000, // 15 minutes
+    // maxAge: 15 * 60 * 1000, // 15 minutes
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   res.cookie('refreshToken', refreshToken, {
@@ -75,4 +76,30 @@ exports.refreshToken = asyncHandler(async (req, res) => {
   } catch (err) {
     throw new CustomError('Invalid or expired refresh token', 401);
   }
+});
+
+
+// Logout User
+exports.logoutUser = asyncHandler(async (req, res) => {
+    await logoutUserService();
+
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    });
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    });
+
+    res.status(200).json({ message: 'Logged out successfully' });
+});
+
+
+exports.getLoggedInUser = asyncHandler(async(req, res) => {
+  const user = await getUserDetails(req.user.id);
+  if (!user) {
+    throw new CustomError('User not found', 404);
+  }
+  res.status(200).json({ user });
 });

@@ -32,7 +32,7 @@ connectDB();
 
 // User Routes
 app.use('/api', userRoutes);
-app.use('/api/users', productRoutes);
+app.use('/api', productRoutes);
 app.use('/api/users', cartRoutes);
 app.use('/api/users', wishlistRoutes);
 app.use('/api/users/', userOrderRoutes);

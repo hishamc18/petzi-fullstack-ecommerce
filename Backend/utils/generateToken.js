@@ -10,7 +10,7 @@ const generateAccessToken = (user) => {
       role: user.role,
     },
     process.env.JWT_SECRET,
-    { expiresIn: '5m' }
+    { expiresIn: '6d' } //change needed
   );
 };
 

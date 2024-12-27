@@ -78,14 +78,14 @@
 
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel')
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);  // Initialize Stripe with your secret key
-const CustomError = require('../utils/customError'); // Custom error handling utility
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const CustomError = require('../utils/customError');
 
 
 
 const createOrder = async (userId, shippingAddress, paymentMethod) => {
   // Fetch user's cart
-  const cart = await Cart.findOne({ userId }).populate('items.productId'); // Populate product details
+  const cart = await Cart.findOne({ userId }).populate('items.productId'); 
 
   if (!cart || cart.items.length === 0) {
     throw new CustomError('Cart is empty', 400);
@@ -100,8 +100,8 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
 
     if (!product) throw new CustomError('Product not found', 404);
 
-    if (product.stock < cartItem.quantity) {
-      throw new CustomError('Not enough stock for product: ' + product.name, 400);
+    if (product.stock < cartItem.quantity || product.isDeleted == true) {
+      throw new CustomError('Not enough stock for product or product was deleted: ' + product.name, 400);
     }
 
     totalAmount += product.price * cartItem.quantity;
@@ -140,10 +140,10 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
     newOrder.stripePaymentIntentId = paymentIntent.id;
     await newOrder.save();
 
-    return { order: newOrder, clientSecret: paymentIntent.client_secret }; // Return the client secret for payment processing
+    return { order: newOrder, clientSecret: paymentIntent.client_secret };
   }
 
-  return { order: newOrder }; // Return the order if payment is not via Stripe
+  return { order: newOrder };
 };
 
 
@@ -151,7 +151,7 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
 const getUserOrders = async (userId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
   const orders = await Order.find({ userId })
-    .populate('items.productId')  // Populate product details for each item in the order
+    .populate('items.productId')
     .skip(skip)
     .limit(limit);
 
@@ -177,8 +177,6 @@ const cancelOrder = async (orderId) => {
   
   return order;
 };
-
-// Additional functionality can be added here, such as handling Stripe payment confirmation, refunds, etc.
 
 module.exports = {
   createOrder,
