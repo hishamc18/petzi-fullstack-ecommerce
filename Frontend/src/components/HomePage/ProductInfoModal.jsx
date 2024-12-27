@@ -1,7 +1,26 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./homeStyle.css"; 
 
-const ProductModal = ({ product, onClose }) => {
+const ProductModal = ({ productId, onClose }) => {
+    
+    // Fetch product data from the Redux store using productId
+    const product = useSelector((state) => 
+        state.products.products.find((item) => item._id === productId)
+    );
+    
+
+    if (!product) {
+        return (
+            <div className="productInfoModal-overlay">
+                <div className="productInfoModal-content">
+                    <span className="productInfoModal-close-button" onClick={onClose}>&times;</span>
+                    <p>Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="productInfoModal-overlay">
             <div className="productInfoModal-content">
@@ -18,11 +37,11 @@ const ProductModal = ({ product, onClose }) => {
                         </div>
                     </div>
                     <div className="product-info-modal-rightdata-wrap">
-                        <p className="productInfoModal-description"><strong>Description: </strong>{product?.description}</p>
-                        <p className="productInfoModal-ingredients"><strong>Ingredients:</strong> {product?.ingredients?.join(", ")}</p>
+                        <p className="productInfoModal-description"><strong>Description: </strong>{product.description}</p>
+                        <p className="productInfoModal-ingredients"><strong>Ingredients:</strong> {product.ingredients}</p>
                         <div>
-                            <p className="productInfoModal-seller"><strong>Seller:</strong> {product?.seller}</p>
-                            <p className="productInfoModal-stock"><strong>Item Left:</strong> {product?.stock} Nos</p>
+                            <p className="productInfoModal-seller"><strong>Seller:</strong> {product.seller}</p>
+                            <p className="productInfoModal-stock"><strong>Item Left:</strong> {product.stock} Nos</p>
                         </div>
                     </div>
                 </div>
@@ -32,3 +51,4 @@ const ProductModal = ({ product, onClose }) => {
 };
 
 export default ProductModal;
+

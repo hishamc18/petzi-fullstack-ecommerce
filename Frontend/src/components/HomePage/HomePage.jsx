@@ -16,14 +16,14 @@ function HomePage() {
     const productsRef = useRef(null);
     const [loading, setLoading] = useState(true);
 
-    //offer toast
-    useEffect(() => {
-        const offerInterval = setInterval(() => {
-            toast.info("50% off on all products!");
-        }, 4000); 
+    // //offer toast
+    // useEffect(() => {
+    //     const offerInterval = setInterval(() => {
+    //         toast.info("50% off on all products!");
+    //     }, 4000); 
 
-        return () => clearInterval(offerInterval);
-    }, []);
+    //     return () => clearInterval(offerInterval);
+    // }, []);
 
     //loading home page
     useEffect(() => {

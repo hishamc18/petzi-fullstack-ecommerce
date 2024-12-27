@@ -81,20 +81,20 @@ export const ProductProvider = ({ children }) => {
         setShowConfirm(false);
     };
 
-    // Fetch products
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get("http://localhost:5001/products");
-                // const response = await axios.get("http://192.168.57.37:5001/products");
-                // const response = await axios.get("http://192.168.146.37:5001/products");
-                setProducts(response.data);
-            } catch (error) {
-                console.error("Error fetching products", error);
-            }
-        };
-        fetchProducts();
-    }, []);
+    // // Fetch products
+    // useEffect(() => {
+    //     const fetchProducts = async () => {
+    //         try {
+    //             const response = await axios.get("http://localhost:5001/products");
+    //             // const response = await axios.get("http://192.168.57.37:5001/products");
+    //             // const response = await axios.get("http://192.168.146.37:5001/products");
+    //             setProducts(response.data);
+    //         } catch (error) {
+    //             console.error("Error fetching products", error);
+    //         }
+    //     };
+    //     fetchProducts();
+    // }, []);
 
     // Filter products based on category or search term
     useEffect(() => {
