@@ -49,7 +49,7 @@ function Login() {
         <div className="form-container">
             <ToastContainer
                 position="top-center"
-                autoClose={2000}
+                autoClose={350}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

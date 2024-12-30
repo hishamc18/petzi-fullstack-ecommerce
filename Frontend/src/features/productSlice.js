@@ -11,7 +11,8 @@ const initialState = {
   currentPage: 1,
   loading: false,
   error: null,
-  hasMore: true, // Track if there are more products to load
+  hasMore: true,
+  category: null,
 };
 
 // Helper function to handle errors
@@ -56,13 +57,18 @@ const productSlice = createSlice({
       state.error = null; // Clear error
     },
     resetProducts: (state) => {
-      state.products = []; // Clear products when needed (for example, on page reload)
+      state.products = [];
       state.currentPage = 1;
-      state.hasMore = true; // Reset hasMore to true
+      state.hasMore = true;
+      state.category = null;
+      state.name = ""
     },
     setPage: (state, action) => {
-      state.currentPage = action.payload; // Update the current page
+      state.currentPage = action.payload;
     },
+    setCategory: (state, action) => {
+      state.category = action.payload;
+  },
   },
   extraReducers: (builder) => {
     builder
@@ -73,7 +79,6 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         const { products, total, pages, currentPage } = action.payload;
-
         state.loading = false;
 
         // Append new products to the list
@@ -114,6 +119,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { clearProduct, resetProducts, setPage } = productSlice.actions;
+export const { clearProduct, resetProducts, setPage, setCategory } = productSlice.actions;
 
 export default productSlice.reducer;

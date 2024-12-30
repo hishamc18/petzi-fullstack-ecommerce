@@ -58,7 +58,7 @@ export const AdminProvider = ({ children }) => {
     useEffect(() => {
         const storedMenu = sessionStorage.getItem("activeMenu");
         if (storedMenu) {
-            setActiveMenu(storedMenu); // Set active menu from storage
+            setActiveMenu(storedMenu);
         }
         // fetchData();
     }, []);

@@ -6,14 +6,13 @@ import Products from "./Products";
 import Category from "./Category";
 import Caption from "./Caption";
 import Footer from "./Footer";
-import { ProductContext } from "../../Context/ProductContext";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function HomePage() {
-    const { searchTerm } = useContext(ProductContext);
     const productsRef = useRef(null);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("")
 
     //loading home page
     useEffect(() => {
@@ -78,7 +77,7 @@ function HomePage() {
                 pauseOnHover
                 transition={Slide}
             />
-            <Navbar scrollToProducts={scrollToProducts} />
+            <Navbar setSearchTerm={setSearchTerm} scrollToProducts={scrollToProducts}/>
             <Caption />
             {/* conditional rednering based on searching */}
             {searchTerm ? (

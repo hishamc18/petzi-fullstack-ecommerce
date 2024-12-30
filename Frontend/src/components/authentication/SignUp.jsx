@@ -28,7 +28,7 @@ function Signin() {
         <div className="form-container">
             <ToastContainer
                 position="top-center"
-                autoClose={2000}
+                autoClose={350}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -37,6 +37,7 @@ function Signin() {
                 draggable
                 pauseOnHover
                 transition={Slide}
+                limit={1}
             />
             <Formik
                 initialValues={{ username: "", email: "", password: "", confirmPassword: "" }}

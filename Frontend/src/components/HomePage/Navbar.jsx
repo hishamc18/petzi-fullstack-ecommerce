@@ -391,13 +391,15 @@ import "./homeStyle.css";
 import { logoutUser, fetchUserDetails} from "../../features/authSlice";
 import LogoutModal from "./LogoutModal";
 import { fetchCartDetails } from "../../features/cartSlice";
+import { fetchProducts } from "../../features/productSlice";
 
 
 
-const Navbar = ({ scrollToProducts }) => {
+const Navbar = ({setSearchTerm, scrollToProducts }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isAuthenticated, user } = useSelector(state => state.auth);
+    const { products } = useSelector((state) => state.products)
     const { cart } = useSelector(state => state.cart);
     const [suggestions, setSuggestions] = useState([]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -437,10 +439,23 @@ const Navbar = ({ scrollToProducts }) => {
     };
 
     const handlePetFoods = () => {
-        setSearchTerm("");
-        setCategory("");
+        setCategory(null);
         scrollToProducts();
     };
+
+
+    const debounce = (func, delay) => {
+        let timeout;
+        return (...args) => {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func(...args), delay);
+        };
+      };
+
+    const searchProducts = debounce((searchValue) => {
+        dispatch(fetchProducts({ name: searchValue, page: 1, limit: 12 }));
+    }, 400);
+
 
     const handleSearch = (e) => {
         const searchValue = e.target.value.toLowerCase();
@@ -452,14 +467,14 @@ const Navbar = ({ scrollToProducts }) => {
                     product.name.toLowerCase().includes(searchValue) || product.category.toLowerCase().includes(searchValue)
             );
             setSuggestions(filteredSuggestions);
+            searchProducts(searchValue);
         } else {
             setSuggestions([]);
         }
-    };
+    }
 
     const handleSuggestionClick = (suggestion) => {
         setSearchTerm(suggestion.name.toLowerCase());
-        setSuggestions([]);
     };
 
     const handleBlur = () => {
@@ -568,10 +583,10 @@ const Navbar = ({ scrollToProducts }) => {
                 <div className="searchIcon">
                     <i className="bx bx-search-alt-2"></i>
                 </div>
-                {suggestions.length > 0 && (
+                {suggestions.length > 0 && (                    
                     <ul className="suggestions-list">
-                        {suggestions.map((suggestion) => (
-                            <li key={suggestion.id} onClick={() => handleSuggestionClick(suggestion)}>
+                        {suggestions.map((suggestion) => ( 
+                            <li key={suggestion._id || suggestion.name} onClick={() => handleSuggestionClick(suggestion)}>
                                 {suggestion.name}
                             </li>
                         ))}

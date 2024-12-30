@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
-import { ProductContext } from "../../Context/ProductContext";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { fetchProducts, setCategory } from "../../features/productSlice";
 import "./homeStyle.css";
 
 const Category = ({ scrollToProducts }) => {
-    const { setCategory } = useContext(ProductContext);
+    const dispatch = useDispatch();
 
     const handleCategoryClick = (category) => {
-        setCategory(category);
-        scrollToProducts(); // Scroll to the Products section after selecting a category
+        dispatch(setCategory(category));
+        dispatch(fetchProducts({ page: 1, limit: 12, category })); 
+        scrollToProducts();
     };
 
     return (
@@ -22,6 +24,15 @@ const Category = ({ scrollToProducts }) => {
                         <img src="src/assets/category/dog.jpg" alt="Dog" />
                     </button>
                     <label>Dog</label>
+                </div>
+                <div className="pet">
+                    <button
+                        onClick={() => handleCategoryClick("")}
+                        className="category-btn"
+                    >
+                        <img src="src/assets/category/all-products.jpg" alt="All Products" />
+                    </button>
+                    <label>All Products</label>
                 </div>
                 <div className="pet">
                     <button

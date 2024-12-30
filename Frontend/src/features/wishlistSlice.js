@@ -13,7 +13,6 @@ export const addProductToWishlist = createAsyncThunk(
       return response.data.wishlist;
     } catch (error) {
       const errorMessage = handleError(error); // Use the error handler
-      toast.error(errorMessage);
       return rejectWithValue(errorMessage);
     }
   }
@@ -54,7 +53,7 @@ export const clearUserWishlist = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.delete(endPoints.WISHLIST.CLEAR);
-      return response.data.wishlist;
+      return {wishlist: response.data.wishlist, message: response.data.message};
     } catch (error) {
       const errorMessage = handleError(error); // Use the error handler
       return rejectWithValue(errorMessage);
@@ -85,11 +84,15 @@ const wishlistSlice = createSlice({
       })
       .addCase(addProductToWishlist.fulfilled, (state, action) => {
         state.loading = false;
-        state.wishlist = action.payload.items;
+        state.wishlist = action.payload;
+        state.wishlist = null
       })
       .addCase(addProductToWishlist.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        if (action.payload == 'Product already exist in the wishlist') {
+            state.wishlist = [...state.wishlist];
+        }
       })
       .addCase(removeProductFromWishlist.pending, (state) => {
         state.loading = true;

@@ -69,28 +69,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import ProductInfoModal from "./ProductInfoModal";
 import { fetchProducts } from "../../features/productSlice";
-import { addProductToCart  } from "../../features/cartSlice";
+import { addProductToCart } from "../../features/cartSlice";
 import { addProductToWishlist } from "../../features/wishlistSlice";
 import "./homeStyle.css";
 import { toast, ToastContainer, Slide } from "react-toastify";
 
-const Products = React.forwardRef((props, ref) => {
+const Products = React.forwardRef((props, ref ) => {
     const dispatch = useDispatch();
-    const { products, loading, currentPage, hasMore } = useSelector((state) => state.products);
-    const { isAuthenticated } = useSelector((state) => state.auth);
+    const { products, loading, currentPage, hasMore, category } = useSelector((state) => state.products);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [toastMessage, setToastMessage] = useState("");
-
-    useEffect(() => {
-        if (toastMessage) {
-            const timer = setTimeout(() => {
-                setToastMessage("");
-            }, 2200);
-            return () => clearTimeout(timer); // Cleanup timeout on unmount
-        }
-    }, [toastMessage]);
-
-    
 
     const handleAddToCartClick = (product) => {
         dispatch(addProductToCart(product._id))
@@ -106,13 +93,18 @@ const Products = React.forwardRef((props, ref) => {
             });
     };
 
-    
     const handleAddToWishlistClick = (product) => {
-        if (!isAuthenticated) {
-            setToastMessage("Please log in to add items to your wishlist");
-        } else {
-            dispatch(addToWishlist(product._id));
-        }
+        dispatch(addProductToWishlist(product._id))
+            .then((response) => {
+                if (response.payload.message) {
+                    toast.error(response.payload.message);
+                } else {
+                    toast.success("Product added to wishlist!");
+                }
+            })
+            .catch((error) => {
+                toast.error(error.message);
+            });
     };
 
     const handleImageClick = (product) => {
@@ -125,26 +117,26 @@ const Products = React.forwardRef((props, ref) => {
 
     useEffect(() => {
         if (!loading && hasMore) {
-            dispatch(fetchProducts({ page: currentPage, limit: 12 }));
+            dispatch(fetchProducts({ page: currentPage, limit: 12, category }));
         }
     }, [dispatch, currentPage, hasMore]);
 
     const handlePrevious = () => {
         if (currentPage > 1) {
-            dispatch(fetchProducts({ page: currentPage - 1, limit: 12 }));
+            dispatch(fetchProducts({ page: currentPage - 1, limit: 12, category }));
         }
     };
 
     const handleNext = () => {
         if (hasMore && !loading) {
-            dispatch(fetchProducts({ page: currentPage + 1, limit: 12 }));
+            dispatch(fetchProducts({page: currentPage + 1, limit: 12, category }));
         }
     };
     return (
         <div>
-                        <ToastContainer
+            <ToastContainer
                 position="top-center"
-                autoClose={1300}
+                autoClose={330}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
