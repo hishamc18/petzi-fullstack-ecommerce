@@ -24,43 +24,43 @@ export const AdminProvider = ({ children }) => {
 
     
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch("http://localhost:5001/users");
-            // const response = await fetch("http://192.168.57.37:5001/users");
-            const data = await response.json();
-            // Filter users without admin role
-            const nonAdminUsers = data.filter((user) => user.role !== "admin");
-            setTotalUsers(nonAdminUsers.length); // Count of non-admin users
-            setUsers(nonAdminUsers);
-            // Calculate total orders and total revenue
-            let ordersCount = 0;
-            let totalRevenue = 0;
-            data.forEach((user) => {
-                if (user.orders) {
-                    ordersCount += user.orders.length;
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await fetch("http://localhost:5001/users");
+    //         // const response = await fetch("http://192.168.57.37:5001/users");
+    //         const data = await response.json();
+    //         // Filter users without admin role
+    //         const nonAdminUsers = data.filter((user) => user.role !== "admin");
+    //         setTotalUsers(nonAdminUsers.length); // Count of non-admin users
+    //         setUsers(nonAdminUsers);
+    //         // Calculate total orders and total revenue
+    //         let ordersCount = 0;
+    //         let totalRevenue = 0;
+    //         data.forEach((user) => {
+    //             if (user.orders) {
+    //                 ordersCount += user.orders.length;
 
-                    // Sum of the total revenue from each order
-                    user.orders.forEach((order) => {
-                        totalRevenue += order.totalAmount; 
-                    });
-                }
-            });
-            setTotalOrders(ordersCount); // Set total orders
-            setTotalRevenue(totalRevenue); // Set total revenue
-            const admin = data.find((user) => user.role === "admin");
-            setAdminUser(admin);
-        } catch (error) {
-            console.error("Error fetching users:", error);
-        }
-    };
+    //                 // Sum of the total revenue from each order
+    //                 user.orders.forEach((order) => {
+    //                     totalRevenue += order.totalAmount; 
+    //                 });
+    //             }
+    //         });
+    //         setTotalOrders(ordersCount); // Set total orders
+    //         setTotalRevenue(totalRevenue); // Set total revenue
+    //         const admin = data.find((user) => user.role === "admin");
+    //         setAdminUser(admin);
+    //     } catch (error) {
+    //         console.error("Error fetching users:", error);
+    //     }
+    // };
 
     useEffect(() => {
         const storedMenu = sessionStorage.getItem("activeMenu");
         if (storedMenu) {
             setActiveMenu(storedMenu); // Set active menu from storage
         }
-        fetchData();
+        // fetchData();
     }, []);
 
     useEffect(() => {

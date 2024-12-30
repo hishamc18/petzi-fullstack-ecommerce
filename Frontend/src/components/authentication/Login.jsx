@@ -58,6 +58,7 @@ function Login() {
                 draggable
                 pauseOnHover
                 transition={Slide}
+                limit={1}
             />
             <Formik
                 initialValues={{ email: "", password: "" }}

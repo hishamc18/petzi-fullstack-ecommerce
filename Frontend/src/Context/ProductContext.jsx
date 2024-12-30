@@ -22,64 +22,64 @@ export const ProductProvider = ({ children }) => {
     const [showConfirm, setShowConfirm] = useState(false); // For logout modal handling
 
     // Runs initially when component mounts and fetch username from localStorage
-    const username = localStorage.getItem("username");  
+    // const username = localStorage.getItem("username");  
       
-    useEffect(() => {
-        const email = localStorage.getItem("email")
-        if (username && email) {
-            setIsLoggedIn(true);
-            setCurrentUser(username);
-            fetchUser(email);
-        }
-    }, []);
+    // useEffect(() => {
+    //     const email = localStorage.getItem("email")
+    //     if (username && email) {
+    //         setIsLoggedIn(true);
+    //         setCurrentUser(username);
+    //         fetchUser(email);
+    //     }
+    // }, []);
 
-    // Fetching user details from the DB
-    const fetchUser = async (email) => {
-        try {
-            const response = await axios.get(`http://localhost:5001/users?email=${email}`);
-            // const response = await axios.get(`http://192.168.57.37:5001/users?email=${email}`);
-            const user = response.data[0];
-            setCurrentUser(user);
-            setCart(user?.cart || []);
-            setOrders(user?.orders || []);
-            setWishList(user?.wishlist || []);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-        }
-    };
+    // // Fetching user details from the DB
+    // const fetchUser = async (email) => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:5001/users?email=${email}`);
+    //         // const response = await axios.get(`http://192.168.57.37:5001/users?email=${email}`);
+    //         const user = response.data[0];
+    //         setCurrentUser(user);
+    //         setCart(user?.cart || []);
+    //         setOrders(user?.orders || []);
+    //         setWishList(user?.wishlist || []);
+    //     } catch (error) {
+    //         console.error("Error fetching user data:", error);
+    //     }
+    // };
 
-    // Login
-    const login = async (username, email) => {
-        await fetchUser(email);
-        setIsLoggedIn(true);
-        localStorage.setItem("username", username);
-        localStorage.setItem("email", email)
-    };
+    // // Login
+    // const login = async (username, email) => {
+    //     await fetchUser(email);
+    //     setIsLoggedIn(true);
+    //     localStorage.setItem("username", username);
+    //     localStorage.setItem("email", email)
+    // };
 
-    // Logout
-    const logout = () => {
-        localStorage.removeItem("username");
-        localStorage.removeItem("email")
-        localStorage.removeItem("orderSummary");
-        setIsLoggedIn(false);
-        setCart([]);
-        setCurrentUser(null);
-        navigate("/");
-    };
+    // // Logout
+    // const logout = () => {
+    //     localStorage.removeItem("username");
+    //     localStorage.removeItem("email")
+    //     localStorage.removeItem("orderSummary");
+    //     setIsLoggedIn(false);
+    //     setCart([]);
+    //     setCurrentUser(null);
+    //     navigate("/");
+    // };
 
-    // Logout modal
-    const handleLogoutClick = () => {
-        setShowConfirm(true);
-    };
+    // // Logout modal
+    // const handleLogoutClick = () => {
+    //     setShowConfirm(true);
+    // };
 
-    const confirmLogout = () => {
-        logout();
-        setShowConfirm(false);
-    };
+    // const confirmLogout = () => {
+    //     logout();
+    //     setShowConfirm(false);
+    // };
 
-    const cancelLogout = () => {
-        setShowConfirm(false);
-    };
+    // const cancelLogout = () => {
+    //     setShowConfirm(false);
+    // };
 
     // // Fetch products
     // useEffect(() => {
@@ -344,10 +344,10 @@ export const ProductProvider = ({ children }) => {
     return (
         <ProductContext.Provider
             value={{
-                currentUser,
+                // currentUser,
                 toastMessage,
                 setToastMessage,
-                products,
+                // products,
                 filteredProducts,
                 searchTerm,
                 setSearchTerm,
@@ -363,17 +363,17 @@ export const ProductProvider = ({ children }) => {
                 removeFromCart,
                 updateQuantity,
                 isLoggedIn,
-                login,
-                logout,
+                // login,
+                // logout,
                 orderSummary,
                 setOrderSummary,
                 setOrderDetails,
                 orders,
-                handleLogoutClick,
-                confirmLogout,
-                cancelLogout,
-                showConfirm,
-                username
+                // handleLogoutClick,
+                // confirmLogout,
+                // cancelLogout,
+                // showConfirm,
+                // username
             }}
         >
             {children}

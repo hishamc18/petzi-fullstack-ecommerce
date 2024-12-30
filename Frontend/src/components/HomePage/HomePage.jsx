@@ -7,23 +7,13 @@ import Category from "./Category";
 import Caption from "./Caption";
 import Footer from "./Footer";
 import { ProductContext } from "../../Context/ProductContext";
-import LogoutModal from "./LogoutModal";
-import { ToastContainer, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import { ToastContainer, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function HomePage() {
-    const { searchTerm, showConfirm, cancelLogout, confirmLogout } = useContext(ProductContext);
+    const { searchTerm } = useContext(ProductContext);
     const productsRef = useRef(null);
     const [loading, setLoading] = useState(true);
-
-    // //offer toast
-    // useEffect(() => {
-    //     const offerInterval = setInterval(() => {
-    //         toast.info("50% off on all products!");
-    //     }, 4000); 
-
-    //     return () => clearInterval(offerInterval);
-    // }, []);
 
     //loading home page
     useEffect(() => {
@@ -76,7 +66,7 @@ function HomePage() {
 
     return (
         <div className="homePage">
-                        <ToastContainer
+            <ToastContainer
                 position="top-center"
                 autoClose={1300}
                 hideProgressBar={false}
@@ -105,8 +95,6 @@ function HomePage() {
                 </>
             )}
             <Footer />
-            {/* for showing the logout modal */}
-            {showConfirm && <LogoutModal onConfirm={confirmLogout} onCancel={cancelLogout} />}
         </div>
     );
 }

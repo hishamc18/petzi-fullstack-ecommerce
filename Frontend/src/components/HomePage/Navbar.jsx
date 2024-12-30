@@ -388,17 +388,29 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { MdOutlinePets } from "react-icons/md";
 import "./homeStyle.css";
-import { logoutUser } from "../../features/authSlice";
+import { logoutUser, fetchUserDetails} from "../../features/authSlice";
+import LogoutModal from "./LogoutModal";
+import { fetchCartDetails } from "../../features/cartSlice";
+
+
 
 const Navbar = ({ scrollToProducts }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isAuthenticated, user } = useSelector(state => state.auth);
-
+    const { cart } = useSelector(state => state.cart);
     const [suggestions, setSuggestions] = useState([]);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [toastMessage, setToastMessage] = useState("");
+    const [showConfirm, setShowConfirm] = useState(false)
+
+    // fetching data of logined user
+    useEffect(() => {
+          dispatch(fetchUserDetails());
+          dispatch(fetchCartDetails());
+      }, [dispatch]);
+
 
     const handleCartAccess = () => {
         if (!isAuthenticated) {
@@ -472,14 +484,23 @@ const Navbar = ({ scrollToProducts }) => {
 
 //logout
     const handleLogoutClick = () => {
-        dispatch(logoutUser())
-          .then(() => {
-            navigate('/login');
-          })
-          .catch((error) => {
-            console.error('Logout error:', error);
-          });
+        setShowConfirm(true);
       };
+
+          const confirmLogout = () => {
+              dispatch(logoutUser())
+                  .then(() => {
+                      navigate("/");
+                  })
+                  .catch((error) => {
+                      console.error("Logout error:", error);
+                  });
+              setShowConfirm(false);
+          };
+      
+          const cancelLogout = () => {
+              setShowConfirm(false);
+          };
     
 
     const refresh = () => {
@@ -506,11 +527,11 @@ const Navbar = ({ scrollToProducts }) => {
                         <i className="bx bx-cart"></i>
                         <label>Cart</label>
                     </div>
-                    {/* <div className="count">{cart?.length > 0 && <span className="cart-badge">{cart?.length}</span>}</div> */}
+                    <div className="count">{isAuthenticated ? cart?.items?.length > 0 && <span className="cart-badge">{cart?.items?.length}</span> : <span>0</span>}</div>
                 </div>
                 <div className="navbar-icon" onClick={handleProfileClick} ref={dropdownRef}>
                     <i className="bx bx-user"></i>
-                    <label>{isAuthenticated ? user.username : "Login"}</label>
+                    <label>{isAuthenticated?user.username: "Login"}</label>
 
                     {dropdownOpen && isAuthenticated && (
                         <div className="dropdown-menu">
@@ -557,7 +578,9 @@ const Navbar = ({ scrollToProducts }) => {
                     </ul>
                 )}
             </div>
+            {showConfirm && <LogoutModal onConfirm={confirmLogout} onCancel={cancelLogout} />}
         </nav>
+        
     );
 };
 

@@ -14,6 +14,7 @@ import Dashboard from "./components/Admin/Dashboard";
 import HandleProducts from "./components/Admin/HandleProducts";
 import UserDetails from "./components/Admin/UserDetails";
 import ProtectedAdmin from "./components/authentication/ProtectedAdmin";
+import './App.css'
 
 function App() {
     return (

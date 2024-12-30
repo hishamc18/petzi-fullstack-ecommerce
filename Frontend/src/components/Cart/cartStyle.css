@@ -215,6 +215,10 @@
 
 /* ==================== Cart =================== */
 /* Cart Heading */
+.cart-price {
+    height: 95vh;
+}
+
 .cart-price h1 {
     padding: 11px;
     text-align: center;
@@ -299,7 +303,7 @@
 .quantity-controls {
     margin-top: 5px;
     border: 1px solid #2196F3;
-    width: 79.9px;
+    width: 78px;
     border-radius: 50px;
     font-size: large;
     transform: scaleY(0.93);
@@ -307,17 +311,22 @@
 
 .quantity-controls button {
     border: none;
-    padding: 2px 9px;
+    padding: 3px 9px;
     border-radius: 50%;
     background-color: #2196F3;
     color: rgb(255, 255, 255);
-    font-size: 20px;
+    font-size: 18px;
     transition: background-color 0.3s;
 }
 
 .quantity-controls button:hover {
     background-color: #8ec5f1;
 }
+
+.quantity-controls button:disabled {
+    background-color: #53c2f6;
+    cursor: not-allowed;
+  }
 
 .del {
     margin-top: 20px;

@@ -1,6 +1,7 @@
 import React from "react";
 
 const LogoutModal = ({ onConfirm, onCancel }) => {
+    
     return (
         <div className="modal-overlay">
             <div className="modal-content">

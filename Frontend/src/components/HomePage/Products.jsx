@@ -64,50 +64,54 @@
 
 // export default Products;
 
-
-
-
-
-
-
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import ProductInfoModal from "./ProductInfoModal";
 import { fetchProducts } from "../../features/productSlice";
-// import { addToCart } from "../../features/cartSlice";
-// import { addToWishlist } from "../../features/wishlistSlice";
+import { addProductToCart  } from "../../features/cartSlice";
+import { addProductToWishlist } from "../../features/wishlistSlice";
 import "./homeStyle.css";
+import { toast, ToastContainer, Slide } from "react-toastify";
 
 const Products = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
     const { products, loading, currentPage, hasMore } = useSelector((state) => state.products);
-    const { isLoggedIn } = useSelector((state) => state.auth);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [ toastMessage, setToastMessage ] = useState("");
+    const [toastMessage, setToastMessage] = useState("");
+
+    useEffect(() => {
+        if (toastMessage) {
+            const timer = setTimeout(() => {
+                setToastMessage("");
+            }, 2200);
+            return () => clearTimeout(timer); // Cleanup timeout on unmount
+        }
+    }, [toastMessage]);
+
     
-        useEffect(() => {
-            if (toastMessage) {
-                const timer = setTimeout(() => {
-                    setToastMessage("");
-                }, 2200);
-                return () => clearTimeout(timer); // Cleanup timeout on unmount
-            }
-        }, [toastMessage]);
 
     const handleAddToCartClick = (product) => {
-        if (!isLoggedIn) {
-        setToastMessage("Please log in to add items to your cart");
-        } else {
-            dispatch(addToCart(product));
-        }
+        dispatch(addProductToCart(product._id))
+            .then((response) => {
+                if (response.meta?.rejectedWithValue) {
+                    toast.error(response.payload);
+                } else {
+                    toast.success(response.payload.message);
+                }
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
     };
 
+    
     const handleAddToWishlistClick = (product) => {
-        if (!isLoggedIn) {
+        if (!isAuthenticated) {
             setToastMessage("Please log in to add items to your wishlist");
         } else {
-            dispatch(addToWishlist(product));
+            dispatch(addToWishlist(product._id));
         }
     };
 
@@ -130,7 +134,7 @@ const Products = React.forwardRef((props, ref) => {
             dispatch(fetchProducts({ page: currentPage - 1, limit: 12 }));
         }
     };
-    
+
     const handleNext = () => {
         if (hasMore && !loading) {
             dispatch(fetchProducts({ page: currentPage + 1, limit: 12 }));
@@ -138,6 +142,17 @@ const Products = React.forwardRef((props, ref) => {
     };
     return (
         <div>
+                        <ToastContainer
+                position="top-center"
+                autoClose={1300}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                draggable
+                pauseOnHover
+                transition={Slide}
+                limit={1}
+            />
             <div className="products-container" ref={ref}>
                 {products.length === 0 && !loading && <p className="productError">No products found...😞</p>}
                 {products.map((product) => (
@@ -166,32 +181,19 @@ const Products = React.forwardRef((props, ref) => {
                     </div>
                 ))}
 
-                {selectedProduct && (
-                    <ProductInfoModal productId={selectedProduct._id} onClose={closeModal} />
-                    
-                )}
+                {selectedProduct && <ProductInfoModal productId={selectedProduct._id} onClose={closeModal} />}
                 {loading && <p>Loading Products</p>}
             </div>
-                        <div className="pagination-controls">
-                        <button
-                            onClick={handlePrevious}
-                            disabled={currentPage === 1 || loading}
-                            className="pagination-btn"
-                        >
-                            Previous
-                        </button>
-                        <button
-                            onClick={handleNext}
-                            disabled={!hasMore || loading}
-                            className="pagination-btn"
-                        >
-                            Next
-                        </button>
-                    </div>
+            <div className="pagination-controls">
+                <button onClick={handlePrevious} disabled={currentPage === 1 || loading} className="pagination-btn">
+                    Previous
+                </button>
+                <button onClick={handleNext} disabled={!hasMore || loading} className="pagination-btn">
+                    Next
+                </button>
+            </div>
         </div>
-        
     );
 });
 
 export default Products;
-
