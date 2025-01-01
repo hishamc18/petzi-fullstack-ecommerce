@@ -105,10 +105,16 @@ const Cart = () => {
 
     // Fetch cart data from Redux store
     const { cart } = useSelector(state => state.cart);
+    const { isAuthenticated } = useSelector((state) => state.auth)
 
     // Effect to fetch cart details when component mounts
     useEffect(() => {
-        dispatch(fetchCartDetails());
+        if(!isAuthenticated){
+            navigate('/login')
+        }
+        else{
+            dispatch(fetchCartDetails());
+        }
     }, [dispatch]);
 
     // Handle remove product from cart

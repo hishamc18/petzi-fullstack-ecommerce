@@ -1,7 +1,7 @@
 .admin-homepage {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 97vh;
 }
 
 .adminNavbar {
@@ -16,38 +16,38 @@
     align-items: center;
 }
 
-.adminlogo{
+.adminlogo {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 60px;
 }
 
-.adminlogo h1{
+.adminlogo h1 {
     font-size: 20px;
 }
 
-.adminLogoutBtn{
+.adminLogoutBtn {
     margin-right: 2em;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.adminlgbtn{
+.adminlgbtn {
     margin-top: -22px;
 }
 
-.adminLogoutText{
+.adminLogoutText {
     margin-right: -57px;
     margin-top: -22px;
 }
 
-.adminLogoutBtn i{
+.adminLogoutBtn i {
     font-size: 25px;
 }
 
-.adminLogoutBtn label{
+.adminLogoutBtn label {
     font-size: 13px;
     margin-top: 4px;
 }
@@ -57,8 +57,8 @@
     display: flex;
     flex: 1;
     flex-direction: row;
-    margin-top: 5.5em;
-    height: calc(100vh - 5.5em);
+    margin-top: 6em;
+    /* height: calc(100vh - 5.5em); */
 }
 
 
@@ -136,9 +136,7 @@
 /* Product Form Styles */
 .product-form {
     align-content: center;
-    height: 420px;
-    margin: 13px;
-    padding: 13px;
+    margin: 10px;
     border: 2px solid #ddd;
     border-radius: 12px;
     background-color: #3e7b62;
@@ -146,10 +144,46 @@
     transition: background-color 0.3s ease;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     align-items: center;
+    justify-content: center;
 }
 
-.product-form .inputWrap{
+.product-form div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.productField {
+    display: flex;
+    flex-direction: column;
+}
+
+.productFieldContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.productFieldINCDES {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.productFieldINCDES textarea {
+    width: 300px;
+    height: 70px;
+    padding: 2px;
+    border-radius: 10px;
+}
+
+.productField label {
+    margin-left: 10px;
+}
+
+.product-form .inputWrap {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -157,12 +191,19 @@
 
 .product-form input {
     margin: 12px 5px;
+    width: 350px;
     padding: 14px;
     border: 1px solid #ccc;
     border-radius: 6px;
     transition: border 0.3s ease, box-shadow 0.3s ease;
-    width: calc(50% - 10px);
-    display: inline-block;
+}
+
+
+.product-form select {
+    width: 300px;
+    padding: 13px;
+    margin: 12px 5px;
+    border-radius: 6px;
 }
 
 .product-form input::placeholder {
@@ -179,6 +220,23 @@
 
 .product-form h3 {
     letter-spacing: 2px;
+}
+
+.viewAndSearch {
+    display: flex;
+    justify-content: space-between;
+}
+
+.adminSearchProducts input {
+    border-radius: 20px;
+    padding: 0 10px;
+    border: 2px solid rgb(2, 66, 2);
+    width: 150px;
+}
+
+.suggestions-list-admin {
+    margin-top: 35px;
+    margin-left: 1px;
 }
 
 /* Modal Styling */
@@ -253,10 +311,10 @@
 }
 
 @media (max-width: 390px) {
-     .adminModal-content{
+    .adminModal-content {
         margin-top: 5em;
         transform: scale(0.9);
-     }
+    }
 }
 
 .updateBtn {
@@ -324,6 +382,11 @@
     overflow-y: auto;
     border-top: 2px solid #007bff;
     padding: 20px;
+}
+
+
+.paginationInAdminProducts {
+    margin-top: 20px;
 }
 
 @media (max-width:800px) {
@@ -852,7 +915,7 @@
     font-weight: 500;
 }
 
-.admin-dashCardcontent .adminDetailsCard{
+.admin-dashCardcontent .adminDetailsCard {
     font-size: 18px;
 }
 
@@ -1067,8 +1130,8 @@
 
 
 /* UserDetails container styling */
-@media (max-width: 720px){
-    .user-Tables{
+@media (max-width: 720px) {
+    .user-Tables {
         display: flex;
         flex-direction: column;
         gap: 2em;
@@ -1369,14 +1432,14 @@
     transition: 0.2s;
 }
 
-.user-Tables{
+.user-Tables {
     display: flex;
-    justify-content: space-between;
-    padding: 0px 1em;
-    /* flex-wrap: wrap; */
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
 }
 
-.user-Tables h2{
+.user-Tables h2 {
     font-size: 24px;
     text-align: center;
 }
@@ -1393,7 +1456,7 @@
     .adminBlockBtnDiv button {
         font-size: 0.8rem;
         padding: 7px 15px;
-        
+
     }
 }
 
@@ -1413,7 +1476,8 @@
     margin-right: 10px;
 }
 
-.yes-btn, .no-btn {
+.yes-btn,
+.no-btn {
     padding: 5px 10px;
     border: none;
     cursor: pointer;
@@ -1432,7 +1496,7 @@
     color: white;
 }
 
-.productDeleteConfirm{
+.productDeleteConfirm {
     text-align: center;
     display: flex;
     flex-direction: column;

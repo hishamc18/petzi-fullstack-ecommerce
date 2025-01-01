@@ -38,6 +38,7 @@ function HomePage() {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
     }, [searchTerm]);
+    
 
     if (loading) {
         return (
@@ -90,7 +91,7 @@ function HomePage() {
                 <>
                     <HeroSection />
                     <Category scrollToProducts={scrollToProducts} />
-                    <Products ref={productsRef} />
+                    <Products ref={productsRef} scrollToProducts={scrollToProducts} />
                 </>
             )}
             <Footer />

@@ -13,7 +13,7 @@ import AdminHome from "./components/Admin/AdminHome";
 import Dashboard from "./components/Admin/Dashboard";
 import HandleProducts from "./components/Admin/HandleProducts";
 import UserDetails from "./components/Admin/UserDetails";
-import ProtectedAdmin from "./components/authentication/ProtectedAdmin";
+// import ProtectedAdmin from "./components/authentication/ProtectedAdmin";
 import './App.css'
 
 function App() {
@@ -34,9 +34,9 @@ function App() {
                         <Route
                             path="admin"
                             element={
-                                <ProtectedAdmin>
+                                // <ProtectedAdmin>
                                     <AdminHome />
-                                </ProtectedAdmin>
+                                // </ProtectedAdmin>
                             }
                         >
                             <Route path="dashboard" element={<Dashboard />} />

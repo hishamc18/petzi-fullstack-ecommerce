@@ -74,7 +74,7 @@ import { addProductToWishlist } from "../../features/wishlistSlice";
 import "./homeStyle.css";
 import { toast, ToastContainer, Slide } from "react-toastify";
 
-const Products = React.forwardRef((props, ref ) => {
+const Products = React.forwardRef((props, ref, scrollToProducts ) => {
     const dispatch = useDispatch();
     const { products, loading, currentPage, hasMore, category } = useSelector((state) => state.products);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -112,7 +112,7 @@ const Products = React.forwardRef((props, ref ) => {
     };
 
     const closeModal = () => {
-        setSelectedProduct(null); // Close the modal
+        setSelectedProduct(null);
     };
 
     useEffect(() => {
@@ -129,7 +129,7 @@ const Products = React.forwardRef((props, ref ) => {
 
     const handleNext = () => {
         if (hasMore && !loading) {
-            dispatch(fetchProducts({page: currentPage + 1, limit: 12, category }));
+            dispatch(fetchProducts({page: currentPage + 1, limit: 12, category }))
         }
     };
     return (

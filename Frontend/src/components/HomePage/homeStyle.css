@@ -489,6 +489,12 @@
   margin-top: -10px;
 }
 
+@media (max-width: 720px) {
+  .category-buttons {
+    transform: scale(0.86);
+  }  
+}
+
 /* Responsive for category */
 @media (max-width: 380px) {
   .category-container{
@@ -504,6 +510,7 @@
     margin-bottom: -40px;
   }
 }
+
 
 
 

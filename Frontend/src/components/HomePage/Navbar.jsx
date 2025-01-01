@@ -439,8 +439,8 @@ const Navbar = ({setSearchTerm, scrollToProducts }) => {
     };
 
     const handlePetFoods = () => {
-        setCategory(null);
         scrollToProducts();
+        setCategory(null);
     };
 
 
@@ -470,6 +470,7 @@ const Navbar = ({setSearchTerm, scrollToProducts }) => {
             searchProducts(searchValue);
         } else {
             setSuggestions([]);
+            dispatch(fetchProducts({ page: 1, limit: 12, category: null }));
         }
     }
 
