@@ -1,3 +1,4 @@
+const { number } = require('joi');
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(
@@ -27,6 +28,7 @@ const orderSchema = new mongoose.Schema(
       city: { type: String, required: true },
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
+      phoneNumber: {type: Number, required: true}
     },
     paymentMethod: {
       type: String,
@@ -46,26 +48,17 @@ const orderSchema = new mongoose.Schema(
     paymentDate: {
       type: Date,
     },
-    status: {
-      type: String,
-      enum: ['pending', 'shipped', 'delivered', 'cancelled'],
+    status: { type: String, enum: ['placed', 'shipped', 'delivered', 'pending', 'cancelled'] },
+    razorpayOrderId: {
+      type: String, // Store the Razorpay order ID here
+    },
+    razorpayPaymentId: {
+      type: String, // Store the Razorpay payment ID here
+    },
+    razorpayPaymentStatus: {
+      type: String, // Store the Razorpay payment status (paid/failed) here
+      enum: ['paid', 'failed', 'pending', 'captured'],
       default: 'pending',
-    },
-
-    // New fields for Stripe integration
-    stripePaymentIntentId: {
-      type: String, // Stores the Stripe payment intent ID
-    },
-    stripePaymentStatus: {
-      type: String,
-      enum: ['pending', 'succeeded', 'failed', 'canceled'],
-      default: 'pending', // Initially pending, later updated based on payment status
-    },
-    stripeChargeId: {
-      type: String, // Store the Stripe charge ID after successful payment
-    },
-    stripeReceiptUrl: {
-      type: String, // URL to the Stripe receipt for the transaction
     },
   },
   { timestamps: true }

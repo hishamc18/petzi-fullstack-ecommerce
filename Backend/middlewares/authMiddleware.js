@@ -11,7 +11,7 @@ const protect = async (req, res, next) => {
     }
 
     if (!token) {
-      return next(new CustomError('Not authorized, no token provided', 401));
+      return next(new CustomError('Not authorized, Please Login', 401));
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

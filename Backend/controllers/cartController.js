@@ -12,10 +12,10 @@ const addProductToCart = asyncHandler(async (req, res) => {
 
 //get full cart
 const getCartDetails = asyncHandler(async (req, res) => {
-    const userId = req.user._id;
-    const { page = 1, limit = 10 } = req.query; 
-    const cart = await cartService.getCart(userId, page, limit);
-    res.status(200).json({ cart });
+    const userId = req.user.id;
+    const { page = 1, limit = 10 } = req.query;
+    const { cart, totalPrice } = await cartService.getCartDetails(userId, page, limit);
+    return res.status(200).json({ cart, totalPrice });
   });
   
 
@@ -54,11 +54,19 @@ const clearCart = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Cart cleared', cart });
 });
 
+
+const getCartDetailsForUser = asyncHandler(async (req, res) => {
+    const { userId } = req.params; // Get userId from params (admin should pass the userId)
+    const { cart } = await cartService.getCartDetailsOfUser(userId);
+    res.status(200).json({ cart });
+});
+
 module.exports = {
     addProductToCart,
     increaseCartQuantity,
     decreaseCartQuantity,
     getCartDetails,
     clearCart,
-    deleteFromCart
+    deleteFromCart,
+    getCartDetailsForUser
 };

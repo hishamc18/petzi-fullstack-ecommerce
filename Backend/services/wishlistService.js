@@ -16,7 +16,10 @@ const addToWishlist = async (userId, productId) => {
     
     let existingProduct = wishlist.items.find((item)=>item.productId.toString() == productId)
     if(existingProduct){
-        throw new CustomError("Product already exist in the wishlist",400)
+      return {
+        message: "Product already exists in the wishlist",
+        wishlist,
+      };
     }
     wishlist.items.push({productId});
     await wishlist.save();

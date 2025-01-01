@@ -40,6 +40,7 @@ app.use('/api/users/', userOrderRoutes);
 // Admin Routes
 app.use('/api/admin', productRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin/', userOrderRoutes);
 
 // Error Handler
 app.use(errorHandler);

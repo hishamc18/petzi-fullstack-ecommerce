@@ -32,16 +32,53 @@ const addToCart = async (userId, productId) => {
 };
 
 
+// // Get cart details
+// const getCart = async (userId, page = 1, limit = 10) => {
+//   const skip = (page - 1) * limit;
+//   const cart = await Cart.findOne({ userId: userId })
+//     .populate('items.productId')
+//     .skip(skip)
+//     .limit(limit);
+//   if (!cart) throw new CustomError('Cart not found', 404); 
+
+//   const totalPrice = cart.items.reduce((total, item) => {
+//     console.log(item);
+  
+//     if (!item.productId || !item.productId.price) {
+//       throw new CustomError('Product details missing in cart items', 400);
+//     }
+    
+//     if (!item.quantity || isNaN(item.quantity) || item.quantity <= 0) {
+//       console.log('Invalid quantity:', item.quantity);
+//       throw new CustomError('Invalid quantity in cart items', 400);
+//     }
+  
+//     return total + item.productId.price * item.quantity;
+//   }, 0);
+  
+
+//   return { cart, totalPrice };
+// };
 // Get cart details
-const getCart = async (userId, page = 1, limit = 10) => {
+const getCartDetails = async (userId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
   const cart = await Cart.findOne({ userId: userId })
     .populate('items.productId')
     .skip(skip)
     .limit(limit);
+  
   if (!cart) throw new CustomError('Cart not found', 404);
-  return cart;
+  
+  const totalPrice = cart.items.reduce((total, item) => {
+    return total + item.productId.price * item.quantity;
+  }, 0);
+
+  cart.totalPrice = totalPrice;  // Update the cart's total price field
+
+  await cart.save();  // Save updated cart total
+  return { cart, totalPrice };
 };
+
 
 
 
@@ -110,7 +147,7 @@ const decreaseQuantity = async (userId, productId) => {
 
 // Clear cart
 const clearCart = async (userId) => {
-  const cart = await Cart.findOne({ userId: userId });
+  const cart = await Cart.findOne({ userId: userId })
   if (!cart) throw new CustomError('Cart not found', 404);
 
   cart.items = [];
@@ -118,4 +155,12 @@ const clearCart = async (userId) => {
   return cart;
 };
 
-module.exports = { addToCart, increaseQuantity, decreaseQuantity, getCart, clearCart, deleteFromCart };
+
+
+const getCartDetailsOfUser = async (userId) => {
+  const cart = await Cart.findOne({ userId: userId }).populate('items.productId');
+  if (!cart) throw new CustomError('Cart not found', 404);
+  return { cart };
+};
+
+module.exports = { addToCart, increaseQuantity, decreaseQuantity, getCartDetails, clearCart, deleteFromCart, getCartDetailsOfUser };

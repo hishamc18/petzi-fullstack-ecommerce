@@ -31,15 +31,19 @@ exports.loginUser = asyncHandler(async (req, res) => {
 
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    // maxAge: 15 * 60 * 1000, // 15 minutes
+    secure: true,
+    // maxAge: 15 * 60 * 1000, // 15 minutese
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: '/',
+    sameSite: 'none'
   });
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: '/',
+    sameSite: 'none'
   });
 
   // Send response

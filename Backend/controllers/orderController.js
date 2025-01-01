@@ -1,76 +1,79 @@
 const asyncHandler = require('../middlewares/asyncHandler');
 const orderService = require('../services/orderService');
+const CustomError = require('../utils/customError');
 
-// Create a new order
-// const createOrder = asyncHandler(async (req, res) => {
-//   const userId = req.user._id; 
-//   const { items, shippingAddress, paymentMethod } = req.body;
-
-//   // Call the service to create the order and handle Stripe payment if necessary
-//   const { order, clientSecret } = await orderService.createOrder(userId, items, shippingAddress, paymentMethod);
-
-//   // If payment method is Stripe, return the clientSecret to frontend for payment processing
-//   if (paymentMethod === 'Stripe') {
-//     return res.status(201).json({
-//       message: 'Order created successfully, please complete the payment',
-//       order,
-//       clientSecret,
-//     });
-//   }
-
-//   // If no Stripe payment method, simply return the order creation response
-//   res.status(201).json({
-//     message: 'Order created successfully',
-//     order,
-//   });
-// });
-
+// Create Order
 const createOrder = asyncHandler(async (req, res) => {
-  const userId = req.user._id; // Extract user ID from authenticated user
   const { shippingAddress, paymentMethod } = req.body;
+  const userId = req.user._id;
+  
+  const { order, razorpayOrderId } = await orderService.createOrder(userId, shippingAddress, paymentMethod);
 
-  // Call the service to create the order and handle Stripe payment if necessary
-  const { order, clientSecret } = await orderService.createOrder(userId, shippingAddress, paymentMethod);
-
-  // If payment method is Stripe, return the clientSecret to frontend for payment processing
-  if (paymentMethod === 'Stripe') {
-    return res.status(201).json({
-      message: 'Order created successfully, please complete the payment',
-      order,
-      clientSecret,
-    });
-  }
-
-  // If no Stripe payment method, simply return the order creation response
+  // Send response
   res.status(201).json({
     message: 'Order created successfully',
     order,
+    razorpayOrderId, // Send Razorpay order ID for frontend
   });
 });
 
 
-// Get all orders for a user
-const getUserOrders = asyncHandler(async (req, res) => {
-  const userId = req.user._id;
-  const { page = 1, limit = 10 } = req.query;
-  const orders = await orderService.getUserOrders(userId, page, limit);
-  res.status(200).json({ orders });
+
+// Verify Payment Endpoint
+const verifyPayment = asyncHandler(async (req, res) => {
+  const { paymentId, orderId } = req.body;
+  try {
+    const isPaymentVerified = await orderService.verifyPayment(paymentId, orderId);
+
+    if (isPaymentVerified) {
+      res.status(200).json({
+        message: 'Payment verified successfully',
+      });
+    } else {
+      throw new CustomError('Payment verification failed', 400);
+    }
+  } catch (error) {
+    console.error('Error in payment verification endpoint:', error);  // Log error details
+    res.status(error.status || 500).json({
+      message: error.message || 'Something went wrong during payment verification.',
+    });
+  }
 });
 
-// Cancel order for user
-const cancelOrder = asyncHandler(async (req, res) => {
-  const orderId = req.params.orderId;  
 
-  // Call service to cancel the order
+// Get User Orders (with pagination)
+const getUserOrders = asyncHandler(async (req, res) => {
+  const userId = req.user._id; 
+  const { page, limit } = req.query;
+
+  const orders = await orderService.getUserOrders(userId, page, limit);
+
+  res.status(200).json({
+    orders,
+  });
+});
+
+// Cancel Order
+const cancelOrder = asyncHandler(async (req, res) => {
+  const { orderId } = req.params;
   const cancelledOrder = await orderService.cancelOrder(orderId);
   res.status(200).json({
-    message: 'Order has been cancelled',
-    order: cancelledOrder,
+    message: 'Order cancelled successfully',
+    cancelledOrder,
   });
 });
+
+
+const getUserOrderById = asyncHandler(async (req,res) => {
+      const { userId } = req.params;
+      const { order } = await orderService.getOrderDetailsOfUser(userId);
+      res.status(200).json({ order });
+})
 
 module.exports = {
   createOrder,
   getUserOrders,
   cancelOrder,
+  verifyPayment,
+  getUserOrderById
 };

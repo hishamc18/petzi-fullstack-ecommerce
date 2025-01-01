@@ -16,7 +16,7 @@ exports.getAllUsers = async (page, limit) => {
 
 // get user by id
 exports.getUserByID = async (id) => {
-  const user = await User.findById(id);
+  const user = await User.findById(id).select('-password');
   if (!user || user.role == 'admin') {
     throw new CustomError('User not found', 404);
   }
