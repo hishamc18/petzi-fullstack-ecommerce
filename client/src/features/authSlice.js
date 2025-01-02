@@ -197,17 +197,19 @@ const authSlice = createSlice({
       .addCase(fetchUserDetails.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        if(action.payload.role == 'admin'){
-          state.adminAuthenticated = true
-          state.isAuthenticated = false
-        }
-        if(action.payload.role == 'user'){
-          state.isAuthenticated = true
-          state.adminAuthenticated = false
-        }
-        state.isAuthenticated = true;
         state.error = null;
-      })
+    
+        if (action.payload.role === 'admin') {          
+            state.adminAuthenticated = true;
+            state.isAuthenticated = false;
+        } else if (action.payload.role === 'user') {
+            state.adminAuthenticated = false;
+            state.isAuthenticated = true;
+        } else {
+            state.adminAuthenticated = false;
+            state.isAuthenticated = false;
+        }
+    })
       .addCase(fetchUserDetails.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;

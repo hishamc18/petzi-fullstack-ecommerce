@@ -400,14 +400,12 @@
 .carousel .slide {
   opacity: 0;
   transform: scale(0.95);
-  /* Slight zoom out effect */
   transition: opacity 0.7s ease-in, transform 1.2s ease-in-out;
 }
 
 .carousel .slide.selected {
   opacity: 1;
   transform: scale(1);
-  /* Zoom in to normal size */
 }
 
 /* responsive for Carousel */
@@ -866,9 +864,7 @@
   .product-info-modal-rightdata-wrap {
     padding: 20px 0;
     border-left: none;
-    /* Remove border on mobile */
     border-top: 3px solid white;
-    /* Add a top border to separate the image and text */
   }
 
   .productInfoModal-seller,

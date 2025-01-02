@@ -31,12 +31,6 @@ const PaymentDetails = () => {
         if (!cart || cart.items?.length === 0) {
             dispatch(fetchCartDetails())
                 .unwrap()
-                .then((data) => {
-                    console.log("Cart fetched successfully:", data);
-                })
-                .catch((error) => {
-                    console.error("Error fetching cart:", error);
-                });
         }
     }, [dispatch, cart]);
 

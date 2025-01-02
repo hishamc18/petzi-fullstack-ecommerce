@@ -116,7 +116,6 @@ export const getUsersWithMostOrders = createAsyncThunk(
   'mostOrders/getUsersWithMostOrders', async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(endPoints.ADMIN.STATISTICS.USER_WITH_MOST_ORDERS);
-      console.log(response.data);
 
       return response.data
     } catch (error) {
@@ -131,7 +130,6 @@ export const revenueChart = createAsyncThunk(
   'revenueBar/revenueChart', async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(endPoints.ADMIN.STATISTICS.REVENUE_CHART);
-      console.log(response.data);
 
       return response.data
     } catch (error) {

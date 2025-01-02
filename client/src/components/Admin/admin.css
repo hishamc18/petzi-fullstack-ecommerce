@@ -1073,40 +1073,29 @@
 
     .admin-recent-orders-table tbody {
         display: block;
-        /* Display tbody as a block */
         max-height: 400px;
-        /* Limit height for scrolling */
         overflow-y: auto;
-        /* Allow vertical scrolling */
     }
 
     .admin-recent-orders-table tbody tr {
         display: table;
-        /* Reset display for rows */
         width: 100%;
-        /* Full width for rows */
         table-layout: fixed;
-        /* Fixed layout for uniform cell sizes */
     }
 
     .admin-recent-orders-table tbody tr td {
         display: table-cell;
-        /* Maintain cell display */
         padding: 6px 4px;
-        /* Adjust padding for mobile */
         border: 1px solid #f2f2f2;
-        /* Add border for separation */
     }
 
     .admin-recent-orders-table tbody tr td:nth-child(odd) {
         font-weight: bold;
-        /* Make the first column bold for better readability */
     }
 
     .admin-recent-orders-container {
         padding: 6px;
         width: 100%;
-        /* Full width on mobile */
     }
 }
 
@@ -1115,7 +1104,6 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    /* Full width for the container */
 }
 
 .admin-table-container {
@@ -1132,7 +1120,6 @@
     border-bottom-right-radius: 15px !important;
 }
 
-/* Ensure the container is responsive */
 @media (max-width: 768px) {
     .admin-table-container {
         grid-template-columns: 1fr;

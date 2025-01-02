@@ -15,9 +15,7 @@ const Cart = () => {
     const { isAuthenticated } = useSelector(state => state.auth);
 
     useEffect(() => {
-        if(!isAuthenticated){
-            navigate('/login')
-        }else{
+        if(isAuthenticated){
             dispatch(fetchCartDetails());
         }
     }, [dispatch]);

@@ -14,7 +14,7 @@
     transition: all 0.3s ease;
 }
 
-.wishListBtnsWrap{
+.wishListBtnsWrap {
     display: flex;
     gap: 1.3em;
     justify-content: center;
@@ -135,13 +135,13 @@
     background-color: #ff3a3e;
 }
 
-.cart-actions{
+.cart-actions {
     display: flex;
     justify-content: space-between;
     align-items: end;
 }
 
-.addtoCartbtnInWishlist{
+.addtoCartbtnInWishlist {
     background-color: rgb(43, 174, 226);
     color: white;
     border-radius: 20px;
@@ -152,7 +152,7 @@
     border: none;
 }
 
-.addtoCartbtnInWishlist:hover{
+.addtoCartbtnInWishlist:hover {
     background-color: #1da1f2;
     transition: 0.6s;
 }
@@ -176,7 +176,8 @@
     .wishlist-info {
         margin-left: 1em;
     }
-    .clear-btn{
+
+    .clear-btn {
         padding: 10px 7px;
     }
 }
@@ -326,7 +327,7 @@
 .quantity-controls button:disabled {
     background-color: #53c2f6;
     cursor: not-allowed;
-  }
+}
 
 .del {
     margin-top: 20px;
@@ -610,7 +611,7 @@ h2 {
     z-index: 500;
 }
 
- .payment-container h2 {
+.payment-container h2 {
     text-align: center;
     font-size: 22px;
 }
@@ -643,14 +644,14 @@ h2 {
     background: linear-gradient(135deg, #e52e71, #ff8a00);
 }
 
-@media (max-width:720px){
-    .proceed-btn{
+@media (max-width:720px) {
+    .proceed-btn {
         transform: scale(0.8);
         width: 100% !important;
         margin: 0;
     }
 
-    .custom-modal{
+    .custom-modal {
         width: 100%;
         transform: scale(0.9);
     }
@@ -759,7 +760,7 @@ h2 {
     font-family: 'Poppins', sans-serif;
 }
 
-.payment-container h3{
+.payment-container h3 {
     text-align: left;
     margin-bottom: 15px;
 }
@@ -770,7 +771,7 @@ h2 {
     font-family: 'Poppins', sans-serif;
 }
 
-.payment-container span{
+.payment-container span {
     color: rgb(138, 7, 7);
     font-size: 20ox;
 }
@@ -871,6 +872,7 @@ h2 {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -889,24 +891,26 @@ h2 {
 .animated-success-icon {
     position: relative;
     display: inline-block;
-    width: 80px; /* Adjust size */
-    height: 80px; /* Adjust size */
-    overflow: hidden; /* Prevent sparkles from overflowing */
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
 }
 
 .success-icon {
-    color: green; /* Color of the checkmark */
-    font-size: 64px; /* Adjust size */
-    animation: scale 0.5s ease-in-out forwards; /* Initial scale animation */
+    color: green;
+    font-size: 64px;
+    animation: scale 0.5s ease-in-out forwards;
 }
 
 @keyframes scale {
     0% {
         transform: scale(0);
     }
+
     50% {
         transform: scale(1.1);
     }
+
     100% {
         transform: scale(1);
     }
@@ -918,25 +922,25 @@ h2 {
     content: '';
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8); 
+    background: rgba(255, 255, 255, 0.8);
     opacity: 0;
     animation: sparkle 1.5s infinite;
 }
 
 .animated-success-icon::before {
-    width: 10px; 
-    height: 10px; 
-    top: 15%; 
+    width: 10px;
+    height: 10px;
+    top: 15%;
     left: 20%;
-    animation-delay: 0.5s; 
+    animation-delay: 0.5s;
 }
 
 .animated-success-icon::after {
-    width: 15px; 
-    height: 15px; 
+    width: 15px;
+    height: 15px;
     top: 20%;
     left: 60%;
-    animation-delay: 0.5s; 
+    animation-delay: 0.5s;
 }
 
 @keyframes sparkle {
@@ -944,14 +948,17 @@ h2 {
         opacity: 0;
         transform: scale(1);
     }
+
     25% {
         opacity: 1;
         transform: scale(1.2);
     }
+
     50% {
         opacity: 0;
         transform: scale(1);
     }
+
     100% {
         opacity: 0;
     }
@@ -1034,7 +1041,7 @@ h2 {
     background-color: #4d4c4c;
 }
 
-.deliveryDate{
+.deliveryDate {
     font-size: 13px;
 }
 
@@ -1079,15 +1086,15 @@ h2 {
         transform: scaleY(0.98);
     }
 
-    .summary-section .deliveryDate{
+    .summary-section .deliveryDate {
         font-size: 11px;
     }
 
-    .summary-section p{
+    .summary-section p {
         font-size: 12px;
     }
-    
-    .summary-section{
+
+    .summary-section {
         gap: 3px;
     }
 
@@ -1201,7 +1208,7 @@ h2 {
     margin-bottom: 10px;
 }
 
-.orderDate{
+.orderDate {
     color: rgb(130, 128, 124);
     margin-top: -8px;
     margin-bottom: 20px;
@@ -1265,7 +1272,7 @@ h2 {
 
 @media (max-width: 768px) {
 
-    .orders-heading{
+    .orders-heading {
         font-size: 28px;
     }
 
@@ -1277,15 +1284,15 @@ h2 {
         max-height: none;
     }
 
-    .orders-container{
+    .orders-container {
         margin: 0;
     }
 
-    .order-id{
+    .order-id {
         font-size: 20px;
     }
 
-    .orderDate{
+    .orderDate {
         font-size: 14px;
     }
 }

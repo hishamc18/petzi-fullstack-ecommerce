@@ -18,10 +18,11 @@ const AdminHome = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-
     useEffect(()=>{
-        dispatch(fetchUserDetails())
-    },[])
+        if(!adminAuthenticated){
+            dispatch(fetchUserDetails()).unwrap()
+        }
+    },[dispatch, navigate, adminAuthenticated])
    
 
     const handleProfileClick = () => {
