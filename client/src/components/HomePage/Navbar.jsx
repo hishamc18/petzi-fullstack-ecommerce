@@ -23,7 +23,9 @@ const Navbar = ({ setSearchTerm, scrollToProducts }) => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchCartDetails);
+        if(isAuthenticated){
+            dispatch(fetchCartDetails());
+        }
     }, [dispatch, navigate]);
 
     const handleCartAccess = () => {
@@ -84,6 +86,7 @@ const Navbar = ({ setSearchTerm, scrollToProducts }) => {
             dispatch(fetchProducts({ page: 1, limit: 12, category: null }));
         }
     };
+    
 
     const handleSuggestionClick = (suggestion) => {
         setSearchTerm(suggestion.name.toLowerCase());

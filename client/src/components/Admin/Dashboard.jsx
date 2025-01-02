@@ -7,7 +7,7 @@ import { fetchAllUsers } from "../../features/authSlice";
 import { fetchAllOrders, fetchRevenue, getUsersWithMostOrders, revenueChart } from "../../features/orderSlice";
 import { fetchProducts, getTopSellingProducts } from "../../features/productSlice";
 
-// Registering Chart.js components
+// Registering Chart.js components (library)
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 
@@ -30,7 +30,7 @@ function Dashboard() {
     }, [dispatch])
 
     const monthlyChartData = {
-        labels: monthlyRevenue.map(item => `${item._id.year}-${String(item._id.month).padStart(2, '0')}`), // Format as 'YYYY-MM'
+        labels: monthlyRevenue.map(item => `${item._id.year}-${String(item._id.month).padStart(2, '0')}`),
         datasets: [
             {
                 label: "Monthly Revenue",
@@ -48,7 +48,7 @@ function Dashboard() {
         datasets: [
             {
                 label: "Weekly Revenue",
-                data: weeklyRevenue.map(item => item.totalRevenue), // Revenue values
+                data: weeklyRevenue.map(item => item.totalRevenue),
                 backgroundColor: "rgba(153, 102, 255, 0.6)",
                 borderColor: "rgba(153, 102, 255, 1)",
                 borderWidth: 1,

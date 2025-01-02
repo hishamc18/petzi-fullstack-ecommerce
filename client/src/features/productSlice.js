@@ -91,6 +91,7 @@ export const editProduct = createAsyncThunk(
   }
 );
 
+
 // Delete a product
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
@@ -139,7 +140,7 @@ const productSlice = createSlice({
         if (currentPage === 1) {
           state.products = products; 
         } else {
-          state.products = [...products];
+          state.products = [...state.products, ...products];
         }
 
         state.total = total

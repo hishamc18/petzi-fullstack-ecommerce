@@ -16,21 +16,21 @@ import "./App.css";
 function App() {
     return (
         <Router>
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="signin" element={<SignIn />} />
-                        <Route path="login" element={<Login/>} />
-                        <Route path="cart" element={<Cart />} />
-                        <Route path="orders" element={<Orders />} />
-                        <Route path="wishlist" element={<WishList />} />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="signin" element={<SignIn />} />
+                <Route path="login" element={<Login />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="wishlist" element={<WishList />} />
 
-                        <Route path="admin" element={<AdminHome />}>
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="handle-products" element={<HandleProducts />} />
-                            <Route path="user-details" element={<UserDetails />} />
-                            <Route path="handle-orders" element={<HandleOrders />} />
-                        </Route>
-                    </Routes>
+                <Route path="admin" element={<AdminHome />}>
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="handle-products" element={<HandleProducts />} />
+                    <Route path="user-details" element={<UserDetails />} />
+                    <Route path="handle-orders" element={<HandleOrders />} />
+                </Route>
+            </Routes>
         </Router>
     );
 }

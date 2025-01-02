@@ -299,7 +299,7 @@ const HandleProducts = () => {
                         </thead>
                         <tbody>
                             {products.map((product) => (
-                                    <tr key={product.id}>
+                                    <tr key={product._id}>
                                         <td>{product.name}</td>
                                         <td>₹{product.price.toFixed(2)}</td>
                                         <td>₹{product.oldPrice}</td>

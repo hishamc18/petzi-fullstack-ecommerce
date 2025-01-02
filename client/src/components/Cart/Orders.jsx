@@ -1,31 +1,44 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUserOrders, cancelOrder } from "../../features/orderSlice";
+import ConfirmCancelModal from "../HomePage/ConfirmCancelModal";
 
 const Orders = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { orders, loading, error } = useSelector((state) => state.order);
-    const { isAuthenticated } = useSelector((state) => state.auth);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [orderToCancel, setOrderToCancel] = useState(null);
 
     useEffect(() => {
-        if(!isAuthenticated){
-            navigate('/login')
-        }
-        else {
-            dispatch(fetchUserOrders());
-        }
+        dispatch(fetchUserOrders());
     }, [dispatch]);
 
     const handleCancelOrder = (orderId) => {
-        if (window.confirm("Are you sure you want to cancel this order?")) {
-            dispatch(cancelOrder(orderId))
-            .then((response) => {
-                dispatch(fetchUserOrders())
-            })
+        setOrderToCancel(orderId);
+        setIsModalOpen(true);
+    };
+
+    const handleConfirmCancel = () => {
+        if (orderToCancel) {
+            dispatch(cancelOrder(orderToCancel))
+                .then((response) => {
+                    dispatch(fetchUserOrders());
+                    toast.success("Order cancelled successfully!");
+                })
+                .catch((error) => {
+                    toast.error("Error cancelling order.");
+                });
         }
+        mation;
+        setIsModalOpen(false);
+    };
+
+    const handleCancelModal = () => {
+        setIsModalOpen(false);
     };
 
     if (loading) {
@@ -46,17 +59,19 @@ const Orders = () => {
                 <p className="no-orders">No orders found.</p>
             ) : (
                 <div className={`orders-list ${orders.length > 6 ? "scrollable" : ""}`}>
-                    {orders.map((order) => (                        
+                    {orders.map((order) => (
                         <div className="order-card" key={order?._id}>
                             <h3 className="order-id">Order ID: #{order?._id}</h3>
-                            <p className="orderDate">Order Date: {order?.createdAt.slice(0,10)}</p>
+                            <p className="orderDate">Order Date: {order?.createdAt.slice(0, 10)}</p>
                             <div className="shipping-details">
                                 <h4>Shipping Details:</h4>
                                 <p>
                                     <strong>Full Name:</strong> {order?.shippingAddress?.fullName}
                                 </p>
                                 <p>
-                                    <strong>Address:</strong> {order?.shippingAddress?.streetAddress}, {order?.shippingAddress?.city}, {order?.shippingAddress?.state} - {order?.shippingAddress?.postalCode}
+                                    <strong>Address:</strong> {order?.shippingAddress?.streetAddress},{" "}
+                                    {order?.shippingAddress?.city}, {order?.shippingAddress?.state} -{" "}
+                                    {order?.shippingAddress?.postalCode}
                                 </p>
                                 <p>
                                     <strong>Phone:</strong> {order?.shippingAddress?.phoneNumber}
@@ -77,7 +92,8 @@ const Orders = () => {
                                         {order?.items?.map((item, i) => (
                                             <div className="wrapReviewandList" key={i}>
                                                 <li>
-                                                    <strong>{item?.productId?.name}</strong> - ₹{item?.productId?.price} x {item?.quantity}
+                                                    <strong>{item?.productId?.name}</strong> - ₹{item?.productId?.price} x{" "}
+                                                    {item?.quantity}
                                                 </li>
                                             </div>
                                         ))}
@@ -99,6 +115,8 @@ const Orders = () => {
                     ))}
                 </div>
             )}
+
+            {isModalOpen && <ConfirmCancelModal onConfirm={handleConfirmCancel} onCancel={handleCancelModal} />}
         </div>
     );
 };
