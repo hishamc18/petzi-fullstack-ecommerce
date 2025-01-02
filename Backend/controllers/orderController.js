@@ -8,18 +8,16 @@ const createOrder = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   
   const { order, razorpayOrderId } = await orderService.createOrder(userId, shippingAddress, paymentMethod);
-
-  // Send response
   res.status(201).json({
     message: 'Order created successfully',
     order,
-    razorpayOrderId, // Send Razorpay order ID for frontend
+    razorpayOrderId,
   });
 });
 
 
 
-// Verify Payment Endpoint
+// Verify Payment 
 const verifyPayment = asyncHandler(async (req, res) => {
   const { paymentId, orderId } = req.body;
   try {
@@ -33,7 +31,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
       throw new CustomError('Payment verification failed', 400);
     }
   } catch (error) {
-    console.error('Error in payment verification endpoint:', error);  // Log error details
+    console.error('Error in payment verification endpoint:', error); 
     res.status(error.status || 500).json({
       message: error.message || 'Something went wrong during payment verification.',
     });
@@ -41,7 +39,7 @@ const verifyPayment = asyncHandler(async (req, res) => {
 });
 
 
-// Get User Orders (with pagination)
+// Get User Orders
 const getUserOrders = asyncHandler(async (req, res) => {
   const userId = req.user._id; 
   const { page, limit } = req.query;

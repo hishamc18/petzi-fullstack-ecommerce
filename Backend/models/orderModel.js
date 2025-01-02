@@ -57,7 +57,7 @@ const orderSchema = new mongoose.Schema(
     },
     razorpayPaymentStatus: {
       type: String, // Store the Razorpay payment status (paid/failed) here
-      enum: ['paid', 'failed', 'pending', 'captured'],
+      enum: ['paid', 'failed', 'pending', 'captured', 'refunded'],
       default: 'pending',
     },
   },

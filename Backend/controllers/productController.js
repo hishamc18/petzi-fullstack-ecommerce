@@ -6,7 +6,7 @@ exports.getproduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { page = 1, limit = 12, name, category } = req.query;
 
-  const { products, total } = await productServices.getProductsService({
+  const { products, total, totalCatProducts, totalDogProducts } = await productServices.getProductsService({
     id,
     category,
     page: parseInt(page),
@@ -21,6 +21,8 @@ exports.getproduct = asyncHandler(async (req, res) => {
     pages: Math.ceil(total / limit),
     currentPage: parseInt(page),
     products,
+    totalCatProducts, totalDogProducts
+
   });
 });
 
@@ -28,10 +30,6 @@ exports.getproduct = asyncHandler(async (req, res) => {
 // Add a new product
 exports.addProduct = asyncHandler(async (req, res) => {
   const productData = req.body;
-  console.log(req.file);
-  console.log("body",req.body);
-  
-  // Check if an image file was uploaded
   if (req.file && req.file.path) {
     productData.image = req.file.path;
   } else {

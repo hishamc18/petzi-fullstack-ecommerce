@@ -9,8 +9,6 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/logout', logoutUser);
 router.get('/me', protect, getLoggedInUser);
-
-// Refresh token route (to obtain a new access token using refresh token)
 router.post('/refresh-token', refreshToken);
 
 module.exports = router;

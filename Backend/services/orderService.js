@@ -41,8 +41,6 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
     totalAmount,
     status: paymentMethod === 'razorpay' ? 'pending' : 'placed',
   }).save();
-
-  // Clear the cart
   cart.items = [];
   await cart.save();
 
@@ -66,7 +64,6 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
       throw new CustomError('Razorpay order creation failed', 500);
     }
   }
-
   return { order };
 };
 
@@ -89,6 +86,7 @@ const verifyPayment = async (paymentId, razorpayOrderId) => {
       order.status = 'placed';
       await order.save();
       
+      
       return true;
     } else {
       throw new CustomError('Payment verification failed', 400);
@@ -102,7 +100,7 @@ const verifyPayment = async (paymentId, razorpayOrderId) => {
 // Get All Orders for User (with pagination)
 const getUserOrders = async (userId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
-  const orders = await Order.find({ userId })
+  const orders = await Order.find({ userId }).sort({createdAt: -1})
     .populate('items.productId')
     .skip(skip)
     .limit(limit);
@@ -120,12 +118,13 @@ const cancelOrder = async (orderId) => {
     throw new CustomError('Order not found', 404);
   }
   order.status = 'cancelled';
+  order.razorpayPaymentStatus = 'refunded'
   await order.save();
   return order;
 };
 
 const getOrderDetailsOfUser = async (userId) => {
-  const order = await Order.find({ userId: userId }).populate('items.productId');
+  const order = await Order.find({ userId: userId }).sort({createdAt: -1}).populate('items.productId');
   if (!order) throw new CustomError('Order not found', 404);
   return { order };
 };
@@ -135,7 +134,7 @@ module.exports = {
   getUserOrders,
   cancelOrder,
   verifyPayment,
-  getOrderDetailsOfUser
+  getOrderDetailsOfUser,
 };
 
 

@@ -4,15 +4,12 @@ const { generateAccessToken, generateRefreshToken } = require('../utils/generate
 
 // Register Service
 exports.registerUserService = async ({ username, email, password }) => {
-    // Check if email is already taken
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new CustomError('Email already registered', 400);
 
     try {
-        // Create new user
         const user = await User.create({ username, email, password });
 
-        // Return user details without password
         return {
             id: user._id,
             username: user.username,
@@ -25,9 +22,6 @@ exports.registerUserService = async ({ username, email, password }) => {
             const field = Object.keys(err.keyPattern)[0];
             throw new CustomError(`The ${field} "${err.keyValue[field]}" is already taken. Please use a different one.`, 400);
         }
-
-        // If an unexpected error occurs, log it and throw a generic error
-        console.error('Registration error:', err);
         throw new CustomError('Something went wrong during registration. Please try again later.', 500);
     }
 };
@@ -62,9 +56,12 @@ exports.logoutUserService = () => {
     return true;
 };
 
+
+
+
 // logined user details
 exports.getUserDetails = async (id) => {
-    const user = await User.findById(id).select('username');
+    const user = await User.findById(id).select('username role');
     return user;
 };
 

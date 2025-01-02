@@ -31,34 +31,6 @@ const addToCart = async (userId, productId) => {
   return cart;
 };
 
-
-// // Get cart details
-// const getCart = async (userId, page = 1, limit = 10) => {
-//   const skip = (page - 1) * limit;
-//   const cart = await Cart.findOne({ userId: userId })
-//     .populate('items.productId')
-//     .skip(skip)
-//     .limit(limit);
-//   if (!cart) throw new CustomError('Cart not found', 404); 
-
-//   const totalPrice = cart.items.reduce((total, item) => {
-//     console.log(item);
-  
-//     if (!item.productId || !item.productId.price) {
-//       throw new CustomError('Product details missing in cart items', 400);
-//     }
-    
-//     if (!item.quantity || isNaN(item.quantity) || item.quantity <= 0) {
-//       console.log('Invalid quantity:', item.quantity);
-//       throw new CustomError('Invalid quantity in cart items', 400);
-//     }
-  
-//     return total + item.productId.price * item.quantity;
-//   }, 0);
-  
-
-//   return { cart, totalPrice };
-// };
 // Get cart details
 const getCartDetails = async (userId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
