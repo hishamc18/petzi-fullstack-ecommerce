@@ -12,5 +12,5 @@ export const store = configureStore({
     wishlist: wishlistReducer,
     cart: cartReducer,
     order: orderReducer,
-  },
+  }
 });

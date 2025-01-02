@@ -4,7 +4,7 @@ export const endPoints = {
     REGISTER: "/register",
     LOGOUT: "/logout",
     ME: "/me",
-    REFRESH_TOKEN: "user/refresh-token",
+    REFRESH_TOKEN: "/refresh-token",
   },
   PRODUCTS: {
     GET_ALL: '/products',
@@ -42,10 +42,15 @@ export const endPoints = {
     ORDERS: {
       GET_ALL: '/admin/orders',
       GET_BY_ID: (id) => `/admin/orders/${id}`,
-      UPDATE_STATUS: (id) => `/admin/orders/${id}/update-status`,
+      TOGGLE_STATUS: (id) => `/admin/orders/${id}/toggle-status`,
     },
     REVENUE: {
       GET_TOTAL: '/admin/revenue',
+    },
+    STATISTICS: {
+      GET_TOP_SELLING_PRODUCTS: '/admin/top-selling-products',
+      USER_WITH_MOST_ORDERS: "/admin/top-users",
+      REVENUE_CHART: "/admin/revenue-chartjs"
     },
     PRODUCTS: {
       ADD: '/addProduct',

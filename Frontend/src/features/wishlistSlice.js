@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../api/axiosInstance'; // your axios instance
+import axiosInstance from '../api/axiosInstance'; 
 import { toast } from 'react-toastify';
-import { handleError } from '../utils/errorHandler'; // Import the error handler utility
+import { handleError } from '../utils/errorHandler'; 
 import { endPoints } from '../api/endpoints';
 
 // Add product to wishlist
@@ -12,7 +12,7 @@ export const addProductToWishlist = createAsyncThunk(
       const response = await axiosInstance.post(endPoints.WISHLIST.ADD(productId));
       return response.data.wishlist;
     } catch (error) {
-      const errorMessage = handleError(error); // Use the error handler
+      const errorMessage = handleError(error);
       return rejectWithValue(errorMessage);
     }
   }
@@ -26,7 +26,7 @@ export const removeProductFromWishlist = createAsyncThunk(
       const response = await axiosInstance.delete(endPoints.WISHLIST.REMOVE(productId));
       return response.data.wishlist;
     } catch (error) {
-      const errorMessage = handleError(error); // Use the error handler
+      const errorMessage = handleError(error); 
       toast.error(errorMessage);
       return rejectWithValue(errorMessage);
     }
@@ -41,7 +41,7 @@ export const getUserWishlist = createAsyncThunk(
       const response = await axiosInstance.get(endPoints.WISHLIST.GET_ALL);
       return response.data.wishlist;
     } catch (error) {
-      const errorMessage = handleError(error); // Use the error handler
+      const errorMessage = handleError(error); 
       return rejectWithValue(errorMessage);
     }
   }
@@ -55,7 +55,7 @@ export const clearUserWishlist = createAsyncThunk(
       const response = await axiosInstance.delete(endPoints.WISHLIST.CLEAR);
       return {wishlist: response.data.wishlist, message: response.data.message};
     } catch (error) {
-      const errorMessage = handleError(error); // Use the error handler
+      const errorMessage = handleError(error);
       return rejectWithValue(errorMessage);
     }
   }
@@ -71,12 +71,7 @@ const initialState = {
 const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState,
-  reducers: {
-    resetWishlist: (state) => {
-      state.wishlist = [];
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(addProductToWishlist.pending, (state) => {
@@ -129,7 +124,5 @@ const wishlistSlice = createSlice({
       });
   },
 });
-
-export const { resetWishlist } = wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

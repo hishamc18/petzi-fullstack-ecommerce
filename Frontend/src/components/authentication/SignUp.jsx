@@ -12,7 +12,7 @@ function Signin() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { loading, error } = useSelector((state) => state.auth);
+    const { loading } = useSelector((state) => state.auth);
 
     // Define Yup validation schema
     const validationSchema = Yup.object({
@@ -44,9 +44,11 @@ function Signin() {
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting }) => {
                     try {
-                        const result = await dispatch(registerUser(values)).unwrap();
-                        toast.success(result.message || "Account Created! You're ready to log.");
-                        navigate("/login");
+                        await dispatch(registerUser(values)).unwrap()
+                        .then((response) => {
+                            toast.success("Account Created! You're ready to log.");
+                            navigate("/login");
+                        })
                     } catch (error) {
                         setSubmitting(false);
                         toast.error(error);

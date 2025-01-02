@@ -1,26 +1,37 @@
-import React, { useContext, useState, useEffect } from "react";
-import { AdminContext } from "../../Context/AdminContext";
+import React, { useEffect, useState } from "react";
 import "./admin.css";
 import Dashboard from "./Dashboard";
 import HandleProducts from './HandleProducts'
 import UserDetails from "./UserDetails";
 import LogoutModal from "../HomePage/LogoutModal";
+import HandleOrders from "./HandleOrders";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, fetchUserDetails } from '../../features/authSlice'
+import { useNavigate } from "react-router-dom";
 
 
 const AdminHome = () => {
-    const { activeMenu, handleMenuClick, adminLogout, isAdmin } = useContext(AdminContext);
-    const adminName = sessionStorage.getItem("adminName")
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownOpen, setDropdtownOpen] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false)
+    const [activeMenu, setActiveMenu] = useState("Dashboard");
+    const { adminAuthenticated } = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
-
+    useEffect(()=>{
+        dispatch(fetchUserDetails())
+    },[])
    
 
     const handleProfileClick = () => {
-        if (isAdmin) {
-            setDropdownOpen(!dropdownOpen);
+        if (adminAuthenticated) {
+            setDropdtownOpen(!dropdownOpen);
         }
+    };
+    
+    const handleMenuClick = (menu) => {
+        setActiveMenu(menu);
     };
 
     const handleLogoutModal = () => {
@@ -28,7 +39,11 @@ const AdminHome = () => {
     }
 
     const confirmLogout = () => {
-        adminLogout();
+        dispatch(logoutUser()).unwrap()
+        .then((response) => {
+            navigate('/login')
+            window.location.reload()
+        })
         setShowConfirm(false);
     };
     const cancelLogout = () => {
@@ -40,13 +55,13 @@ const AdminHome = () => {
         <div className="admin-homepage">
             <nav className="adminNavbar">
                 <div className="navbar-logo adminlogo">
-                    <img src="src/assets/logo/logo1.png" alt="logo" />
+                    <img src="/src/assets/logo/logo1.png" alt="logo" />
                     <h1>Admin Panel</h1>
                 </div>
                 <div className="adminLogoutBtn" onClick={handleProfileClick}>
                     <i className="bx bx-user"></i>
-                    <label>{adminName}</label>
-                    {dropdownOpen && isAdmin &&(
+                    <label>Admin</label>
+                    {dropdownOpen && adminAuthenticated &&(
                         <div className="dropdown-menu">
                             <div className="wrapDropDownIcons">
                                 <button className="logout adminlgbtn" onClick={handleLogoutModal}>
@@ -80,12 +95,19 @@ const AdminHome = () => {
                         >
                             User Details
                         </li>
+                        <li
+                            className={activeMenu === "HandleOrders" ? "active" : ""}
+                            onClick={() => handleMenuClick("HandleOrders")}
+                        >
+                            Handle Orders
+                        </li>
                     </ul>
                 </div>
                 <div className="adminContent">
                     {activeMenu === "Dashboard" && <Dashboard />}
                     {activeMenu === "HandleProducts" && <HandleProducts />}
                     {activeMenu === "UserDetails" && <UserDetails />}
+                    {activeMenu === "HandleOrders" && <HandleOrders />}
                 </div>
             </div>
             {/* for showing the logout modal */}

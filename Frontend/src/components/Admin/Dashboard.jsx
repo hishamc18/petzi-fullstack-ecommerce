@@ -1,89 +1,78 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AdminContext } from "../../Context/AdminContext";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import "./admin.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllUsers } from "../../features/authSlice";
+import { fetchAllOrders, fetchRevenue, getUsersWithMostOrders, revenueChart } from "../../features/orderSlice";
+import { fetchProducts, getTopSellingProducts } from "../../features/productSlice";
 
 // Registering Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+
 function Dashboard() {
-    const {
-        totalUsers,
-        totalOrders,
-        totalRevenue,
-        products,
-        topSellingProducts,
-        adminUser,
-        monthlyRevenue,
-        weeklyRevenue,
-        dailyRevenue,
-        recentOrders,
-        getUsersWithMostOrders
-    } = useContext(AdminContext);
+    const dispatch = useDispatch()
+    const { totalUsers } = useSelector((state) => state.auth)
+    const { total, totalCatProducts, totalDogProducts, topSellingProducts } = useSelector((state) => state.products)
+    const { totalOrders, totalRevenue, allOrders, topUsers, monthlyRevenue, weeklyRevenue, dailyRevenue, } = useSelector((state) => state.order)
 
 
-    const usersWithMostOrders = getUsersWithMostOrders()
-
-    // Calculate product counts
-    const totalProducts = products.length;
-    const dogProducts = products.filter((product) => product.category === "dog").length;
-    const catProducts = products.filter((product) => product.category === "cat").length;
+    useEffect(() => {
+        dispatch(fetchAllUsers({ page: 1, limit: 10 }))
+        dispatch(fetchAllOrders({page: 1, limit: 10}))
+        dispatch(fetchRevenue())
+        dispatch(fetchProducts({}))
+        dispatch(getTopSellingProducts())
+        dispatch(fetchAllOrders({}))
+        dispatch(getUsersWithMostOrders())
+        dispatch(revenueChart())
+    }, [dispatch])
 
     const monthlyChartData = {
-        labels: Object.keys(monthlyRevenue), // Months
+        labels: monthlyRevenue.map(item => `${item._id.year}-${String(item._id.month).padStart(2, '0')}`), // Format as 'YYYY-MM'
         datasets: [
             {
                 label: "Monthly Revenue",
-                data: Object.values(monthlyRevenue), // Revenue values
+                data: monthlyRevenue.map(item => item.totalRevenue), // Revenue values
                 backgroundColor: "rgba(75, 192, 192, 0.6)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,
             },
         ],
     };
+    
 
     const weeklyChartData = {
-        labels: Object.keys(weeklyRevenue), // Weeks
+        labels: weeklyRevenue.map(item => `${item._id.year}-W${String(item._id.week).padStart(2, '0')}`),
         datasets: [
             {
                 label: "Weekly Revenue",
-                data: Object.values(weeklyRevenue), // Revenue values
+                data: weeklyRevenue.map(item => item.totalRevenue), // Revenue values
                 backgroundColor: "rgba(153, 102, 255, 0.6)",
                 borderColor: "rgba(153, 102, 255, 1)",
                 borderWidth: 1,
             },
         ],
     };
+    
 
     const dailyChartData = {
-        labels: Object.keys(dailyRevenue), // Days
+        labels: dailyRevenue.map(item => item._id),
         datasets: [
             {
                 label: "Daily Revenue",
-                data: Object.values(dailyRevenue), // Revenue values
+                data: dailyRevenue.map(item => item.totalRevenue),
                 backgroundColor: "rgba(255, 159, 64, 0.6)",
                 borderColor: "rgba(255, 159, 64, 1)",
                 borderWidth: 1,
             },
         ],
     };
+    
 
-
-// Calculate orders by state
-const ordersByState = recentOrders.reduce((acc, order) => {
-  const state = order.shipping?.state; // Accessing the state inside shipping
-  if (state) { // Only process orders that have a defined state
-      acc[state] = (acc[state] || 0) + 1;
-  }
-  return acc;
-}, {});
-
-// Convert the ordersByState object to an array for rendering
-const ordersByStateArray = Object.entries(ordersByState)
-  .map(([state, count]) => ({ state, count }))
-  .sort((a, b) => a.state.localeCompare(b.state));
-
+  
     return (
         <div className="admin-dashboard-container">
             <div className="DashboardHead">
@@ -122,9 +111,9 @@ const ordersByStateArray = Object.entries(ordersByState)
                         <div className="admin-blob"></div>
                         <div className="admin-dashCardcontent">
                             <h3>Product Overview</h3>
-                            <p><strong>Total Products: </strong>{totalProducts}</p>
-                            <p><strong>Cat Products: </strong>{catProducts}</p>
-                            <p><strong>Dog Products: </strong>{dogProducts}</p>
+                            <p><strong>Total Products: </strong>{total}</p>
+                            <p><strong>Cat Products: </strong>{totalCatProducts}</p>
+                            <p><strong>Dog Products: </strong>{totalDogProducts}</p>
                         </div>
                     </div>
                     <div className="admin-dashcard">
@@ -134,22 +123,11 @@ const ordersByStateArray = Object.entries(ordersByState)
                             <h3>Top Selling Products</h3>
                             <ul>
                                 {topSellingProducts.map((product) => (
-                                    <li key={product.id}>{product.name} ({product.category})</li>
+                                    <li key={product._id}>{product?.productDetails.name} ({product.productDetails.category}) - ({product.totalQuantity} Qty)</li>
                                 ))}
                             </ul>
                         </div>
                     </div>
-                    {adminUser && (
-                        <div className="admin-dashcard">
-                            <div className="admin-bg"></div>
-                            <div className="admin-blob"></div>
-                            <div className="admin-dashCardcontent">
-                                <h3>Admin Details</h3>
-                                <p className="adminDetailsCard">Name: {adminUser.username}</p>
-                                <p className="adminDetailsCard">Email: {adminUser.email}</p>
-                            </div>
-                        </div>
-                    )}
                 </div>
 
                 {/* Revenue Charts */}
@@ -181,18 +159,20 @@ const ordersByStateArray = Object.entries(ordersByState)
                               <tr>
                                   <th>Order ID</th>
                                   <th>Amount</th>
-                                  <th>User Email</th>
+                                  <th>Username</th>
+                                  <th>Order Status</th>
+                                  <th>Ordered Date</th>
                               </tr>
                           </thead>
                           <tbody>
-                              {recentOrders
-                                  .slice()
-                                  .reverse()
+                              {allOrders.slice(0,7)
                                   .map((order) => (
-                                      <tr key={order.orderId}>
-                                          <td>{order.orderId}</td>
-                                          <td>₹{order.amount.toFixed(0)}</td>
-                                          <td>{order.email}</td>
+                                      <tr key={order._id}>
+                                          <td>{order._id}</td>
+                                          <td>₹{order.totalAmount}</td>
+                                          <td>{order.shippingAddress.fullName}</td>
+                                          <td>{order.status}</td>
+                                          <td>{order.createdAt.slice(0,10)}</td>
                                       </tr>
                                   ))}
                           </tbody>
@@ -204,17 +184,17 @@ const ordersByStateArray = Object.entries(ordersByState)
                       <table className="admin-recent-orders-table">
                           <thead>
                               <tr>
-                                  <th>Email</th>
+                                  <th>Username</th>
                                   <th>No. of Orders</th>
-                                  <th>Total Amount</th>
+                                  <th>Email</th>
                               </tr>
                           </thead>
                           <tbody>
-                              {usersWithMostOrders.map((user, index) => (
+                              {topUsers.map((user,index) => (
                                   <tr key={index}>
+                                      <td>{user.username}</td>
+                                      <td>{user.orderCount}</td>
                                       <td>{user.email}</td>
-                                      <td>{user.count}</td>
-                                      <td>₹{user.totalAmount.toFixed(2)}</td>
                                   </tr>
                               ))}
                           </tbody>

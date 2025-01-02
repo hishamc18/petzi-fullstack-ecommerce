@@ -10,8 +10,6 @@ import { toast, ToastContainer, Slide } from "react-toastify";
 const Wishlist = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    // const wishlist = useSelector((state) => state.wishlist.wishlist);
     const { wishlist, loading, error } = useSelector((state) => state.wishlist);
 
     // Fetch user wishlist on component mount

@@ -58,7 +58,6 @@
     flex: 1;
     flex-direction: row;
     margin-top: 6em;
-    /* height: calc(100vh - 5.5em); */
 }
 
 
@@ -113,6 +112,7 @@
     background-color: #cecece;
     border-radius: 10px;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    height: 89vh;
 }
 
 /* Handle Products Styling */
@@ -387,6 +387,7 @@
 
 .paginationInAdminProducts {
     margin-top: 20px;
+    transform: scale(0.8);
 }
 
 @media (max-width:800px) {
@@ -397,11 +398,11 @@
     .adminMenubar {
         position: fixed;
         margin-top: 8px;
-        max-height: 160px;
+        max-height: 200px;
     }
 
     .adminContent {
-        margin-top: 8em;
+        margin-top: 11em;
     }
 
     .adminMenubar {
@@ -432,6 +433,12 @@
     border: 1px solid #c8c7c7;
     padding: 12px;
     text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.product-table td {
+    max-width: 140px;
 }
 
 .product-table th {
@@ -787,9 +794,10 @@
 }
 
 .allDashBoardCards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 cards in a row for PC */
+    /* display: grid; */
+    /* grid-template-columns: repeat(3, 1fr); */
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     height: auto;
     gap: 2em;
@@ -799,11 +807,8 @@
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-
-    /* For tablets and smaller screens (less than 768px), 2 cards per row */
     .allDashBoardCards {
         grid-template-columns: repeat(2, 1fr);
-        /* 2 cards per row */
     }
 
     .admin-recent-orders-container {
@@ -813,10 +818,8 @@
 
 @media screen and (max-width: 480px) {
 
-    /* For mobile devices (less than 480px), 1 card per row */
     .allDashBoardCards {
         grid-template-columns: 1fr;
-        /* 1 card per row */
     }
 }
 
@@ -836,6 +839,13 @@
     padding: 20px;
     background-color: white;
     margin: 0 auto;
+}
+
+.admin-dashcard:nth-child(5){
+    width: 22em;
+}
+.admin-dashcard:nth-child(4){
+    width: 22em;
 }
 
 .admin-dashcard:hover {
@@ -1109,18 +1119,23 @@
 }
 
 .admin-table-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7em;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     text-align: center;
     margin: -4em auto;
+}
+
+.handleViewBtn {
+    transform: scale(0.9);
+    border-top-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
 }
 
 /* Ensure the container is responsive */
 @media (max-width: 768px) {
     .admin-table-container {
         grid-template-columns: 1fr;
-        /* Single column layout on mobile */
         margin: 0;
         margin-top: -5em;
         gap: 3em;
@@ -1141,9 +1156,10 @@
 
 .admin-user-details {
     padding: 20px;
-    background-color: #f5f7fa;
+    background-color: #d7e8df;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 89vh;
 }
 
 .admin-user-details h2 {
@@ -1174,6 +1190,7 @@
     color: #fff;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .admin-user-table td {
@@ -1186,7 +1203,7 @@
 }
 
 /* Action button */
-.admin-user-table button {
+.handleViewBtn {
     background-color: #3498db;
     border: none;
     color: white;
@@ -1197,7 +1214,7 @@
     transition: background-color 0.3s ease;
 }
 
-.admin-user-table button:hover {
+.handleViewBtn:hover {
     background-color: #2980b9;
 }
 
@@ -1391,7 +1408,6 @@
         padding: 15px;
         margin: 10px;
         width: 95%;
-        /* Ensure modal takes up the full viewport width on very small screens */
     }
 
     .admin-user-table {
@@ -1434,9 +1450,8 @@
 
 .user-Tables {
     display: flex;
-    flex-direction: column;
-    gap: 50px;
-    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
 }
 
 .user-Tables h2 {
@@ -1523,4 +1538,40 @@
     cursor: pointer;
     border-radius: 5px;
     width: 50px;
+}
+
+/*********** Handle Products **********/
+.admin-handleOrder {
+    padding: 20px;
+    background-color: #d7e8df;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 89vh;
+}
+
+.orders-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.orders-table h2 {
+    font-size: 27px;
+}
+
+.admin-order-table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.admin-order-table .pagination-controls {
+    transform: scale(0.8);
+}
+
+
+.shippingAndOrderModal {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
 }

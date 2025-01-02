@@ -11,7 +11,7 @@ import "./authStyle.css";
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error, user, isAuthenticated } = useSelector((state) => state.auth);
+    const { loading, error, user, adminAuthenticated, isAuthenticated } = useSelector((state) => state.auth);
 
     // Validation Schema using Yup
     const validationSchema = Yup.object().shape({
@@ -20,25 +20,38 @@ function Login() {
     });
 
     // Handle form submission
+    // const handleSubmit = async (values, { setSubmitting }) => {
+    //     await dispatch(loginUser(values));
+    //     setSubmitting(false);
+    // };
     const handleSubmit = async (values, { setSubmitting }) => {
+    try {
         await dispatch(loginUser(values));
-        setSubmitting(false);
-    };
+    } catch (err) {
+        // Handle error if necessary
+    } finally {
+        setSubmitting(false);  // Ensure it gets reset after submission
+    }
+};
 
-    // Redirect user after successful login based on role
+
     useEffect(() => {
-        if (isAuthenticated && user) {
-            if (user.role === "admin") {
+        if (user) {
+            if (user.role === "admin" && adminAuthenticated) {
                 navigate("/admin/dashboard");
-            } else {
+            } else if (isAuthenticated) {
                 navigate("/");
+            }
+            else{
+                navigate('/login')
             }
         }
 
-        if (error) {
+        if (error === 'Invalid email or password') {
             toast.error(error);
+            
         }
-    }, [isAuthenticated, user, error, navigate]);
+    }, [user, error, navigate]);
 
     
     useEffect(() => {

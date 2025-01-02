@@ -22,7 +22,7 @@
   margin-right: 30px;
 }
 
-.navbar img:hover{
+.navbar img:hover {
   transform: scale(1.06);
   transition: 0.7s;
 }
@@ -172,7 +172,7 @@
   top: 104%;
 }
 
-.wrapDropDownIcons{
+.wrapDropDownIcons {
   display: flex;
   gap: 0.4em;
 }
@@ -191,11 +191,11 @@
   border: none;
 }
 
-.dropdown-menu .logout{
+.dropdown-menu .logout {
   background-color: rgb(244, 49, 49);
 }
 
-.wishIcon{
+.wishIcon {
   margin-top: 3px;
   color: black
 }
@@ -206,7 +206,7 @@
   visibility: visible;
 }
 
-.logoutText{
+.logoutText {
   position: absolute;
   color: black;
   top: 3em;
@@ -217,12 +217,12 @@
   opacity: 0;
 }
 
-.logout:hover .logoutText{
+.logout:hover .logoutText {
   visibility: visible;
   opacity: 1;
 }
 
-.wishListText{
+.wishListText {
   position: absolute;
   color: black;
   top: 3em;
@@ -233,15 +233,17 @@
   transition: opacity 0.7s ease;
 }
 
-.logout-button:hover .wishListText{
+.logout-button:hover .wishListText {
   visibility: visible;
   opacity: 1;
 }
 
 /* resposive for NavBar */
 
-@media (max-width:940px){
-  .petFood, .orders1{
+@media (max-width:940px) {
+
+  .petFood,
+  .orders1 {
     display: none;
   }
 }
@@ -298,7 +300,7 @@
     width: 90%;
   }
 
-  .navbar-search input::placeholder{
+  .navbar-search input::placeholder {
     font-size: 13px;
   }
 
@@ -314,7 +316,7 @@
     margin-top: -0.3em;
   }
 
-  .wrapDropDownIcons{
+  .wrapDropDownIcons {
     font-size: 10px;
     gap: 10px;
   }
@@ -427,10 +429,11 @@
     margin-bottom: -10px;
   }
 
-  .hero-section .carousel img{
+  .hero-section .carousel img {
     height: 230px;
   }
-  .navbar{
+
+  .navbar {
     height: 174px;
   }
 }
@@ -492,20 +495,20 @@
 @media (max-width: 720px) {
   .category-buttons {
     transform: scale(0.86);
-  }  
+  }
 }
 
 /* Responsive for category */
 @media (max-width: 380px) {
-  .category-container{
+  .category-container {
     margin-top: 10px;
   }
 
-  .category-btn{
+  .category-btn {
     transform: scale(0.8);
   }
 
-  .category-buttons{
+  .category-buttons {
     gap: 1px;
     margin-bottom: -40px;
   }
@@ -525,7 +528,7 @@
   justify-items: center;
 }
 
-.productError{
+.productError {
   font-size: 20px;
   font-weight: 600;
 }
@@ -544,7 +547,7 @@
     -20px -20px 60px rgba(190, 190, 190, 0.8);
 }
 
-.wrapCardButtons{
+.wrapCardButtons {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -582,6 +585,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .title {
@@ -632,7 +636,7 @@
   gap: 0.4em;
 }
 
-.card-btn2{
+.card-btn2 {
   border-radius: 30px;
   width: 15%;
   font-size: 25px;
@@ -644,8 +648,8 @@
   margin-left: 10px;
 }
 
-.wishIcon:hover{
-  color:rgb(0, 0, 0);
+.wishIcon:hover {
+  color: rgb(0, 0, 0);
   transform: scale(1.2);
   color: red;
   transition: 0.4s;
@@ -694,13 +698,13 @@
     height: 30px;
   }
 
-  .card-btn i{
+  .card-btn i {
     margin-right: -2px;
     font-size: 13px;
   }
-  
 
-  .card-btn2{
+
+  .card-btn2 {
     font-size: 2em;
   }
 
@@ -842,7 +846,8 @@
   }
 
   .product-info-modal-alldataWrap {
-    flex-direction: column; /* Stack the image and details vertically */
+    flex-direction: column;
+    /* Stack the image and details vertically */
     gap: 20px;
   }
 
@@ -860,11 +865,14 @@
 
   .product-info-modal-rightdata-wrap {
     padding: 20px 0;
-    border-left: none; /* Remove border on mobile */
-    border-top: 3px solid white; /* Add a top border to separate the image and text */
+    border-left: none;
+    /* Remove border on mobile */
+    border-top: 3px solid white;
+    /* Add a top border to separate the image and text */
   }
 
-  .productInfoModal-seller, .productInfoModal-stock{
+  .productInfoModal-seller,
+  .productInfoModal-stock {
     font-size: 12px;
   }
 
@@ -908,14 +916,14 @@
   color: white;
   font-size: 16px;
   border: none;
-  border-radius: 8px; 
-  cursor: pointer; 
+  border-radius: 8px;
+  cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
 }
 
 .pagination-btn:hover {
-  background-color: #15b26b; 
+  background-color: #15b26b;
   transform: scale(1.05);
 }
 
@@ -938,7 +946,8 @@
   .pagination-btn {
     transform: scale(0.8);
   }
-  .pagination-controls{
+
+  .pagination-controls {
     gap: 1px;
   }
 }
@@ -1049,12 +1058,12 @@
   text-transform: capitalize;
 }
 
-.toast span{
+.toast span {
   font-size: 13px;
   margin-top: -10em;
 }
 
-@media (max-width:1100px){
+@media (max-width:1100px) {
   .toast {
     position: fixed;
     left: 34em;
@@ -1064,9 +1073,9 @@
   }
 }
 
-@media (max-width:720px){
-  .toast{
-    left: 11.1em;    
+@media (max-width:720px) {
+  .toast {
+    left: 11.1em;
   }
 }
 
@@ -1082,11 +1091,11 @@
   right: 0;
   bottom: 0;
   background: rgba(66, 66, 66, 0.8);
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.08em;
-  z-index: 53; 
+  z-index: 53;
   transition: opacity 0.3s ease;
 }
 
@@ -1098,14 +1107,14 @@
   justify-content: center;
   border-radius: 15px;
   text-align: center;
-  width: 400px; 
+  width: 400px;
   height: 250px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-  transition: transform 0.3s ease, opacity 0.3s ease; 
-  transform: scale(0.9); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(0.9);
 }
 
-.confirmLogout{
+.confirmLogout {
   font-size: 21px;
   font-weight: 700;
   letter-spacing: 1.4px;
@@ -1113,13 +1122,13 @@
 
 /* Modal Open Animation */
 .modal-overlay.active .modal-content {
-  transform: scale(1); 
+  transform: scale(1);
   opacity: 1;
 }
 
 /* Modal Buttons */
 .modal-buttons {
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 /* Confirm Button */
@@ -1130,20 +1139,20 @@
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 10px; 
-  margin-right: 10px; 
+  border-radius: 10px;
+  margin-right: 10px;
   transition: background-color 0.3s ease;
 }
 
 /* Cancel Button */
 .cancel-btn {
-  background-color: #bdc3c7; 
+  background-color: #bdc3c7;
   font-weight: 600;
   color: white;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 10px; 
+  border-radius: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -1156,7 +1165,7 @@
 }
 
 .cancel-btn:hover {
-  background-color: #aab8c2; 
+  background-color: #aab8c2;
   font-weight: 800;
   transform: scale(1.05);
   transition: 0.4s;
@@ -1165,7 +1174,7 @@
 /* Responsive Design */
 @media (max-width: 600px) {
   .modal-content {
-      width: 90%; 
+    width: 90%;
   }
 }
 
@@ -1191,20 +1200,20 @@
   margin-top: 5em;
 }
 
-.wrapDots{
+.wrapDots {
   display: flex;
   gap: 0.5em;
 }
 
 .loadingDot {
-  width: 25px; 
-  height: 25px; 
-  margin: 0 5px; 
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
   border-radius: 45%;
   animation: jump 0.3s infinite alternate;
 }
 
-.loadingLogo{
+.loadingLogo {
   height: 100px;
   width: 150px;
   margin-top: 5em;
@@ -1214,13 +1223,14 @@
   0% {
     transform: translateY(0);
   }
+
   100% {
     transform: translateY(-28px);
   }
 }
 
 .loadingDot:nth-child(2) {
-  background-color: rgb(50, 169, 248); 
+  background-color: rgb(50, 169, 248);
   animation-delay: 0s;
 }
 
@@ -1230,32 +1240,32 @@
 }
 
 .loadingDot:nth-child(3) {
-  background-color: #2ed573; 
+  background-color: #2ed573;
   animation-delay: 0.2s;
 }
 
 .loadingDot:nth-child(4) {
-  background-color: #ffa502; 
+  background-color: #ffa502;
   animation-delay: 0.3s;
 }
 
-@media (max-width:720px){
-  .forPc{
+@media (max-width:720px) {
+  .forPc {
     display: none;
   }
 
-  .loader{
+  .loader {
     gap: 2em
   }
 
-  .loadingDot{
+  .loadingDot {
     height: 20px;
     width: 20px;
   }
 }
 
-@media (min-width:720px){
-  .forMobile{
+@media (min-width:720px) {
+  .forMobile {
     display: none;
   }
 }

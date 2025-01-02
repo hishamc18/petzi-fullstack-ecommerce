@@ -1,9 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../api/axiosInstance';  // Adjust the import path as necessary
+import axiosInstance from '../api/axiosInstance'; 
 import { endPoints } from '../api/endpoints'
-import { handleError } from '../utils/errorHandler';  // Importing error handler utility
+import { handleError } from '../utils/errorHandler'; 
 
-// Initial state for the cart
 const initialState = {
     cart: null,
     loading: false,
@@ -46,7 +45,6 @@ export const addProductToCart = createAsyncThunk(
             const response = await axiosInstance.post(endPoints.CART.ADD_PRODUCT(productId));
             return { cart: response.data.cart, message: response.data.message };
         } catch (error) {
-            console.log('Error in thunk:', error); // Check if the error is caught here
             const errorMessage = handleError(error);
             return rejectWithValue(errorMessage);
         }
@@ -102,12 +100,10 @@ export const clearCart = createAsyncThunk(
     }
 );
 
-// Cart slice
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
-    reducers: {
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchCartDetails.pending, (state) => {

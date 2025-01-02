@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./homeStyle.css";
 import HeroSection from "./HeroSection";
 import Navbar from "./Navbar";
@@ -8,17 +8,25 @@ import Caption from "./Caption";
 import Footer from "./Footer";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchUserDetails } from "../../features/authSlice";
+import { useDispatch } from "react-redux";
 
 function HomePage() {
     const productsRef = useRef(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("")
+    const dispatch = useDispatch();
+
+        useEffect(() => {
+                dispatch(fetchUserDetails());
+        }, [dispatch]);
+    
 
     //loading home page
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 1600);
+        }, 800);
         return () => clearTimeout(timer);
     }, []);
 
