@@ -86,7 +86,8 @@ const PaymentDetails = () => {
     // Handle Razorpay payment
     const openRazorpayPayment = (razorpayOrderId, amount) => {
         const options = {
-            key: "rzp_test_YdzmqgNJTf3JpC",
+            // key: "rzp_test_YdzmqgNJTf3JpC",
+            key: import.meta.env.RAZORPAY_KEY_ID,
             amount: amount,
             currency: "INR",
             name: "Petzi Pet Food",

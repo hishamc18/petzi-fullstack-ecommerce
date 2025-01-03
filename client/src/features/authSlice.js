@@ -31,7 +31,9 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post(endPoints.AUTH.LOGIN, userData);
+      const response = await axiosInstance.post(endPoints.AUTH.LOGIN, userData,{
+        skipAuthRefresh: true,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(handleError(error));

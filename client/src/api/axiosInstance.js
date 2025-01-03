@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
-    withCredentials: true, // Ensure cookies are sent with requests
+    withCredentials: true,
 });
 
 let isRefreshing = false;
@@ -24,34 +24,32 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
+        // Skip refresh logic if the flag is set
+        if (originalRequest.skipAuthRefresh) {
+            return Promise.reject(error);
+        }
+
+        // Handle 401 errors for expired tokens
         if (error.response?.status === 401 && !originalRequest._retry) {
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
                     failedQueue.push({ resolve, reject });
-                })
-                    .then((token) => {
-                        originalRequest.headers["Authorization"] = `Bearer ${token}`;
-                        return axiosInstance(originalRequest);
-                    })
-                    .catch((err) => Promise.reject(err));
+                });
             }
 
             originalRequest._retry = true;
             isRefreshing = true;
 
             try {
-                const { data } = await axiosInstance.post("/refresh-token");
-                const newAccessToken = data.accessToken;
+                await axiosInstance.post("/refresh-token");
 
-                // Update header for the failed requests
-                axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
-                processQueue(null, newAccessToken);
-
+                // Retry the original request after refreshing the token
                 isRefreshing = false;
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
                 isRefreshing = false;
                 processQueue(refreshError, null);
+
                 // Redirect to login if refresh fails
                 if (refreshError.response?.status === 401) {
                     window.location.href = "/login";
@@ -65,4 +63,3 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
-

@@ -26,11 +26,11 @@ function Login() {
     // };
     const handleSubmit = async (values, { setSubmitting }) => {
     try {
-        await dispatch(loginUser(values));
-    } catch (err) {
-        // Handle error if necessary
+        await dispatch(loginUser(values))
+    } catch (error) {
+        toast.error(error)
     } finally {
-        setSubmitting(false);  // Ensure it gets reset after submission
+        setSubmitting(false);
     }
 };
 
