@@ -19,16 +19,13 @@ function Login() {
         password: Yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
     });
 
-    // Handle form submission
-    // const handleSubmit = async (values, { setSubmitting }) => {
-    //     await dispatch(loginUser(values));
-    //     setSubmitting(false);
-    // };
     const handleSubmit = async (values, { setSubmitting }) => {
     try {
         await dispatch(loginUser(values))
+        .then((response) => {
+            toast.error(error)
+        })
     } catch (error) {
-        toast.error(error)
     } finally {
         setSubmitting(false);
     }
