@@ -29,10 +29,12 @@ exports.loginUser = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken, user } = await loginUserService({ email, password });
 
+  const isAdmin = user.role === 'admin';  
+
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
     secure: true,
-    maxAge: 1 * 60 * 1000, // 15 minutese
+    maxAge: 5 * 60 * 1000, // 5 minutese
     path: '/',
     sameSite: 'none'
   });
@@ -44,6 +46,21 @@ exports.loginUser = asyncHandler(async (req, res) => {
     path: '/',
     sameSite: 'none'
   });
+
+  if (isAdmin) {
+    res.cookie('adminAuth', true, {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
+      path: '/',
+      sameSite: 'none',
+    });
+  } else {
+    res.cookie('userAuth', true, {
+      maxAge: 7 * 24 * 60 * 60 * 1000,  // 7d
+      path: '/',
+      sameSite: 'none',
+    });
+  }
+
 
   // Send response
   res.status(200).json({
@@ -71,8 +88,8 @@ exports.refreshToken = asyncHandler(async (req, res) => {
     // Set the new access token as a cookie
     res.cookie('accessToken', newAccessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 3 * 60 * 1000, // 15 minutes
+      secure: true,
+      maxAge: 5 * 60 * 1000,
     });
 
     res.status(200).json({ message: 'Token refreshed successfully' });
@@ -88,12 +105,20 @@ exports.logoutUser = asyncHandler(async (req, res) => {
 
     res.clearCookie('accessToken', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
     });
     res.clearCookie('refreshToken', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: true,
     });
+    res.clearCookie('userAuth',{
+      path: '/',
+      sameSite: 'none',
+    })
+    res.clearCookie('adminAuth', {
+      path: '/',
+      sameSite: 'none',
+    })
 
     res.status(200).json({ message: 'Logged out successfully' });
 });

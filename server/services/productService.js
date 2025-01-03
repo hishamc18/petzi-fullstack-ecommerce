@@ -77,7 +77,7 @@ exports.deleteProduct = async (productId) => {
 
 // Update a product by ID
 exports.editProduct = async (productId, updateData) => {
-  const product = await Product.findByIdAndUpdate(
+  const product = await Product.findOneAndUpdate(
     { _id: productId, isDeleted: false },
     { $set: { ...updateData } },
     { new: true }

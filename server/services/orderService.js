@@ -47,10 +47,10 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
   // Handle Razorpay payment if selected
   if (paymentMethod === 'razorpay') {
     const options = {
-      amount: Math.round(totalAmount * 100), 
+      amount: Math.round(totalAmount * 100),
       currency: 'INR',
       receipt: `order_receipt_${order._id}`,
-      payment_capture: 1, 
+      payment_capture: 1,
     };
 
     // Create order with Razorpay
@@ -72,7 +72,7 @@ const createOrder = async (userId, shippingAddress, paymentMethod) => {
 
 // Verify Payment
 const verifyPayment = async (paymentId, razorpayOrderId) => {
-  const order = await Order.findOne({ razorpayOrderId });
+  const order = await Order.findOne({ razorpayOrderId }).populate('items.productId');
   if (!order || order.razorpayOrderId !== razorpayOrderId) {
     throw new CustomError('Order not found or invalid order ID', 400);
   }
@@ -85,14 +85,14 @@ const verifyPayment = async (paymentId, razorpayOrderId) => {
       order.razorpayPaymentStatus = 'paid';
       order.status = 'placed';
       await order.save();
-      
-      
+
+
       return true;
     } else {
       throw new CustomError('Payment verification failed', 400);
     }
   } catch (error) {
-    console.error('Error during payment verification:', error); 
+    console.error('Error during payment verification:', error);
     throw new CustomError('Payment verification failed', 500);
   }
 };
@@ -100,7 +100,7 @@ const verifyPayment = async (paymentId, razorpayOrderId) => {
 // Get All Orders for User (with pagination)
 const getUserOrders = async (userId, page = 1, limit = 10) => {
   const skip = (page - 1) * limit;
-  const orders = await Order.find({ userId }).sort({createdAt: -1})
+  const orders = await Order.find({ userId }).sort({ createdAt: -1 })
     .populate('items.productId')
     .skip(skip)
     .limit(limit);
@@ -113,7 +113,7 @@ const getUserOrders = async (userId, page = 1, limit = 10) => {
 // Cancel an Order
 const cancelOrder = async (orderId) => {
   const order = await Order.findById(orderId);
-  
+
   if (!order) {
     throw new CustomError('Order not found', 404);
   }
@@ -124,7 +124,7 @@ const cancelOrder = async (orderId) => {
 };
 
 const getOrderDetailsOfUser = async (userId) => {
-  const order = await Order.find({ userId: userId }).sort({createdAt: -1}).populate('items.productId');
+  const order = await Order.find({ userId: userId }).sort({ createdAt: -1 }).populate('items.productId');
   if (!order) throw new CustomError('Order not found', 404);
   return { order };
 };

@@ -63,11 +63,26 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
 
 
 // Update a product by ID
+// exports.editProduct = asyncHandler(async (req, res) => {
+//   const { productId } = req.params;
+//   const updateData = req.body;
+
+//   const updatedProduct = await productServices.editProduct(productId, updateData);
+//   res.status(200).json({
+//     success: true,
+//     message: 'Product updated successfully',
+//     product: updatedProduct,
+//   });
+// });
 exports.editProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   const updateData = req.body;
-
+  
+  if (req.file) {
+    updateData.image = req.file.path; 
+  }
   const updatedProduct = await productServices.editProduct(productId, updateData);
+
   res.status(200).json({
     success: true,
     message: 'Product updated successfully',
