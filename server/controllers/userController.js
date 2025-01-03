@@ -29,8 +29,6 @@ exports.loginUser = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken, user } = await loginUserService({ email, password });
 
-  const isAdmin = user.role === 'admin';  
-
   res.cookie('accessToken', accessToken, {
     httpOnly: true,
     secure: true,
@@ -46,23 +44,6 @@ exports.loginUser = asyncHandler(async (req, res) => {
     path: '/',
     sameSite: 'none'
   });
-
-  if (isAdmin) {
-    res.cookie('adminAuth', true, {
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7d
-      path: '/',
-      sameSite: 'none',
-    });
-  } else {
-    res.cookie('userAuth', true, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,  // 7d
-      path: '/',
-      sameSite: 'none',
-    });
-  }
-
-
-  // Send response
   res.status(200).json({
     message: 'Login successful',
     user,
@@ -80,10 +61,9 @@ exports.refreshToken = asyncHandler(async (req, res) => {
 
   try {
     // Verify the refresh token
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);   
 
-    // Generate a new access token
-    const newAccessToken = generateAccessToken({ id: decoded.id, role: decoded.role, email: decoded.email });
+    const newAccessToken = generateAccessToken({ id: decoded.id, role: decoded.role, email: decoded.email});
 
     // Set the new access token as a cookie
     res.cookie('accessToken', newAccessToken, {
@@ -111,14 +91,6 @@ exports.logoutUser = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
     });
-    res.clearCookie('userAuth',{
-      path: '/',
-      sameSite: 'none',
-    })
-    res.clearCookie('adminAuth', {
-      path: '/',
-      sameSite: 'none',
-    })
 
     res.status(200).json({ message: 'Logged out successfully' });
 });

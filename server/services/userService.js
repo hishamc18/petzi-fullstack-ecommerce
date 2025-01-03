@@ -40,8 +40,8 @@ exports.loginUserService = async ({ email, password }) => {
     if (!isMatch) throw new CustomError('Invalid email or password', 401);
 
     // Generate tokens
-    const accessToken = generateAccessToken({ id: user._id, role: user.role, email: user.email });
-    const refreshToken = generateRefreshToken({ id: user._id, role: user.role, email: user.email });
+    const accessToken = generateAccessToken({ id: user._id, role: user.role, email: user.email});
+    const refreshToken = generateRefreshToken({ id: user._id, role: user.role, email: user.email});
 
     return {
         accessToken,

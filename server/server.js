@@ -14,7 +14,6 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 
 // CORS configuration
-
 const corsOptions = {
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], // Allowed methods
